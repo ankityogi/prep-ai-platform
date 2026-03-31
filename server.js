@@ -14,6 +14,15 @@ console.log("Server file started");
 
 const app = express();
 
+const fs = require('fs');
+// Ensure upload directories exist (Critical for Render/Cloud deployments)
+const uploadDirs = ['uploads', 'public/uploads/profile', 'public/uploads/videos'];
+uploadDirs.forEach(dir => {
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+    }
+});
+
 // Middleware
 app.use(express.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
