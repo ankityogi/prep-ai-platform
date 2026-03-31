@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Global Leaderboard | PrepAI</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .leaderboard-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .leaderboard-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .leaderboard-header h1 {
+            color: #1e293b;
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+        }
+
+        .leaderboard-header p {
+            color: #64748b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: inherit;
+        }
+
+        tr {
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        th {
+            background: #f1f5f9;
+            color: #475569;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        td {
+            padding: 20px 15px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+            vertical-align: middle;
+        }
+
+        .rank-cell {
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+            width: 80px;
+        }
+
+        .rank-1 { color: #eab308; text-shadow: 0 2px 4px rgba(234, 179, 8, 0.3); font-size: 1.8rem; }
+        .rank-2 { color: #94a3b8; font-size: 1.5rem; }
+        .rank-3 { color: #b45309; font-size: 1.4rem; }
+
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #e0e7ff;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .user-skills {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .score-cell {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #4f46e5;
+        }
+
+        .loading-screen {
+            text-align: center;
+            padding: 50px;
+            color: #6366f1;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <%- include('partials/navbar', { activePage: 'leaderboard' }) %>
+
+    <div class="leaderboard-container">
+        <div class="leaderboard-header">
+            <h1>🏆 Global Leaderboard</h1>
+            <p>Top candidates ranked by their total AI Interview & Coding Assessment EXP.</p>
+        </div>
+
+        <div id="loader" class="loading-screen">
+            Fetching global ranks... 🕒
+        </div>
+
+        <table id="leaderboardTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">Rank</th>
+                    <th>Candidate</th>
+                    <th>Interviews Taken</th>
+                    <th>Avg Score</th>
+                    <th>Total EXP</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboardBody">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        async function fetchLeaderboard() {
+            try {
+                const res = await fetch('/api/leaderboard/data');
+                const data = await res.json();
+                
+                const tableBody = document.getElementById('leaderboardBody');
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('leaderboardTable').style.display = 'table';
+                
+                if (data.leaderboard.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No competitive data available yet!</td></tr>';
+                    return;
+                }
+
+                data.leaderboard.forEach((player, index) => {
+                    const rank = index + 1;
+                    let rankHTML = rank;
+                    
+                    if (rank === 1) rankHTML = '<span class="rank-1">🥇</span>';
+                    else if (rank === 2) rankHTML = '<span class="rank-2">🥈</span>';
+                    else if (rank === 3) rankHTML = '<span class="rank-3">🥉</span>';
+
+                    const initial = player.name ? player.name.charAt(0).toUpperCase() : '?';
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="rank-cell">${rankHTML}</td>
+                        <td class="user-cell">
+                            <div class="user-avatar">${initial}</div>
+                            <div>
+                                <div class="user-name">${player.name || "Anonymous User"}</div>
+                                <div class="user-skills">${player.skills || "Developing Skills..."}</div>
+                            </div>
+                        </td>
+                        <td>${player.totalInterviews} Sessions</td>
+                        <td>${player.avgScore} / 10</td>
+                        <td class="score-cell">${player.totalExp} EXP</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (err) {
+                console.error(err);
+                document.getElementById('loader').innerText = "Failed to load leaderboard.";
+            }
+        }
+
+        window.onload = fetchLeaderboard;
+    </script>
+</body>
+</html>

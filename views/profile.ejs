@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | PrepAI</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        /* Modern Profile specific styles building on style.css */
+        .profile-dashboard {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        /* Left Sidebar Card */
+        .profile-sidebar {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px 24px 32px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+        }
+
+        /* Avatar Container */
+        .avatar-wrapper {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 24px;
+        }
+
+        .avatar-img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--surface);
+            box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+            background: #e2e8f0;
+        }
+
+        .upload-photo-btn {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            background: var(--primary);
+            color: white;
+            border: 2px solid var(--surface);
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgb(0 0 0 / 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .upload-photo-btn:hover { background: var(--primary-hover); transform: scale(1.05); }
+
+        .profile-name { font-size: 22px; font-weight: 600; color: var(--text-main); margin-bottom: 6px; }
+        .profile-email { font-size: 14px; color: var(--text-muted); margin-bottom: 32px; }
+
+        .progress-container { text-align: left; }
+        .progress-header { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); margin-bottom: 10px; font-weight: 500; }
+        .progress-bar-bg { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        /* Main Content Cards */
+        .profile-main {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .grid-4-col {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+            transition: transform 0.2s ease;
+        }
+        .stat-card:hover { transform: translateY(-2px); }
+        .stat-card p { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-card h3 { font-size: 28px; color: var(--primary); margin: 0; }
+
+        .detail-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+        }
+        .detail-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 16px;
+        }
+        .detail-card-header h3 { font-size: 18px; margin: 0; color: var(--text-main); font-weight: 600; }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .info-field { margin-bottom: 8px; }
+        .info-field label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
+        .info-field p { font-size: 15px; color: var(--text-main); margin: 0; min-height: 22px; line-height: 1.6; }
+        
+        .form-input { width: 100%; }
+
+        .edit-controls { display: flex; gap: 12px; margin-top: 24px; }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
+        .btn-outline:hover { background: var(--surface-hover); border-color: #cbd5e1; }
+
+        .video-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #0f172a;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        
+        /* Responsive */
+        @media(max-width: 900px) {
+            .profile-dashboard { grid-template-columns: 1fr; }
+            .grid-4-col { grid-template-columns: 1fr 1fr; }
+            .info-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Unified Top Navbar -->
+    <%- include('partials/navbar', { activePage: 'profile' }) %>
+
+    <div class="app-container">
+        <main class="main-content">
+            <h1 style="margin-bottom: 32px;">My Profile</h1>
+            <div class="profile-dashboard">
+                <!-- Left Column: Identity Card -->
+                <div class="profile-sidebar">
+                    <div class="avatar-wrapper">
+                        <!-- Fallback SVG if no image -->
+                        <img id="profileImage" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2394a3b8' viewBox='0 0 24 24'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" class="avatar-img" />
+                        <input type="file" id="photoInput" hidden />
+                        <button class="upload-photo-btn" onclick="document.getElementById('photoInput').click()" title="Change Profile Photo">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        </button>
+                    </div>
+                    <h2 class="profile-name" id="displayName">Loading...</h2>
+                    <p class="profile-email" id="displayEmail"></p>
+
+                    <div class="progress-container">
+                        <div class="progress-header">
+                            <span>Profile Completion</span>
+                            <span id="progressPercent">0%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="progressFill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Details & Analytics -->
+                <div class="profile-main">
+                    
+                    <!-- Performance Analytics -->
+                    <div class="grid-4-col">
+                        <div class="stat-card">
+                            <p>Total Tests</p>
+                            <h3 id="totalTests">0</h3>
+                        </div>
+                        <div class="stat-card">
+                            <p>Average Score</p>
+                            <h3 id="averageScore">0</h3>
+                        </div>
+                        <div class="stat-card">
+                            <p>Best Score</p>
+                            <h3 id="bestScore">0</h3>
+                        </div>
+                        <div class="stat-card">
+                            <p>Last Attempt</p>
+                            <h3 id="lastScore">0</h3>
+                        </div>
+                    </div>
+
+                    <!-- Personal Information -->
+                    <div class="detail-card">
+                        <div class="detail-card-header">
+                            <h3>Personal Information</h3>
+                            <button class="btn btn-outline" id="editBtn" onclick="enableEdit()">Edit Profile</button>
+                        </div>
+
+                        <!-- VIEW MODE -->
+                        <div id="viewSection">
+                            <div class="info-grid">
+                                <div class="info-field" style="grid-column: span 2;">
+                                    <label>Professional Bio</label>
+                                    <p id="viewBio">-</p>
+                                </div>
+                                <div class="info-field" style="grid-column: span 2;">
+                                    <label>Technical Skills</label>
+                                    <p id="viewSkills">-</p>
+                                </div>
+                                <div class="info-field">
+                                    <label>College / University</label>
+                                    <p id="viewCollege">-</p>
+                                </div>
+                                <div class="info-field">
+                                    <label>Graduation Year</label>
+                                    <p id="viewYear">-</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- EDIT MODE -->
+                        <div id="editSection" style="display:none;">
+                            <div class="info-grid">
+                                <div class="info-field" style="grid-column: span 2;">
+                                    <label>Professional Bio</label>
+                                    <textarea id="bio" class="form-input" rows="3" placeholder="Write a short summary about yourself..."></textarea>
+                                </div>
+                                <div class="info-field" style="grid-column: span 2;">
+                                    <label>Technical Skills (comma separated)</label>
+                                    <input type="text" id="skills" class="form-input" placeholder="e.g. JavaScript, React, Node.js">
+                                </div>
+                                <div class="info-field">
+                                    <label>College / University</label>
+                                    <input type="text" id="college" class="form-input" placeholder="Your institution">
+                                </div>
+                                <div class="info-field">
+                                    <label>Graduation Year</label>
+                                    <input type="text" id="year" class="form-input" placeholder="e.g. 2024">
+                                </div>
+                            </div>
+                            <div class="edit-controls">
+                                <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+                                <button class="btn btn-outline" onclick="cancelEdit()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Media Section -->
+                    <div class="detail-card">
+                        <div class="detail-card-header">
+                            <h3>Introduction Video</h3>
+                            <button class="btn btn-outline" onclick="document.getElementById('videoInput').click()">Upload Video</button>
+                        </div>
+                        <input type="file" id="videoInput" hidden accept="video/*" />
+                        <div class="video-container">
+                            <video id="introVideoPlayer" width="100%" controls preload="metadata"></video>
+                        </div>
+                        <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Upload a 1-minute video introduction of yourself to impress recruiters.</p>
+                    </div>
+
+                    <!-- Resume Section -->
+                    <div class="detail-card">
+                        <div class="detail-card-header">
+                            <h3>Professional Resume</h3>
+                        </div>
+                        <div id="resumeUploadSection">
+                            <form id="resumeForm" style="display: flex; flex-direction: column; gap: 15px;">
+                                <p style="font-size: 14px; color: var(--text-muted); margin: 0;">Upload your latest resume (PDF) to link it to your profile and let AI automatically extract your profile details!</p>
+                                <input type="file" name="resume" id="resumeFileInput" accept=".pdf" required style="padding: 10px; border: 1px dashed var(--border); border-radius: 8px; width: 100%; cursor: pointer;">
+                                <button type="submit" class="btn btn-primary" id="resumeUploadBtn" style="align-self: flex-start; margin-top: 10px;">Upload & Parse</button>
+                            </form>
+                            <div id="resumeStatus" style="display:none; font-size: 14px; color: var(--primary); font-weight: bold; margin-top: 15px; padding: 12px; background: rgba(99, 102, 241, 0.1); border-radius: 6px;">
+                                🤖 Reading your resume and syncing profile data with AI...
+                            </div>
+                        </div>
+
+                        <div id="resumeSuccessSection" style="display:none; margin-top: 15px;">
+                            <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid #22c55e; padding: 16px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                    <div>
+                                        <h4 style="margin: 0; color: #166534; font-size: 15px;">Resume Uploaded</h4>
+                                        <p style="margin: 4px 0 0; color: #15803d; font-size: 13px;">Your profile has been synced with your resume.</p>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-outline" onclick="showResumeUpload()">Edit / Re-upload</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/profile.js"></script>
+</body>
+</html>

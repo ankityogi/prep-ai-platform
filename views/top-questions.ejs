@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Top Interview Questions</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    
+    <!-- Unified Top Navbar -->
+    <%- include('partials/navbar', { activePage: 'top-questions' }) %>
+
+
+    <!-- MAIN LAYOUT -->
+    <div class="container">
+
+        <!-- SIDEBAR (use protected routes + same navigation as dashboard) -->
+
+        <!-- CONTENT -->
+        <div class="app-container">
+        <main class="main-content">
+            <h1>Widely Asked Interview Questions</h1>
+            <p>Frequently asked interview questions by major companies.</p>
+
+            <!-- COMPANY QUESTIONS -->
+            <div class="question-box">
+                <h2>Google</h2>
+                <ul>
+                    <li>Explain how HashMap works internally.</li>
+                    <li>Difference between process and thread.</li>
+                    <li>What is time complexity?</li>
+                    <li>Explain REST vs SOAP.</li>
+                </ul>
+            </div>
+
+            <div class="question-box">
+                <h2>Amazon</h2>
+                <ul>
+                    <li>Explain Amazon Leadership Principles.</li>
+                    <li>What is CAP theorem?</li>
+                    <li>Difference between SQL and NoSQL.</li>
+                    <li>Explain scalability.</li>
+                </ul>
+            </div>
+
+            <div class="question-box">
+                <h2>Microsoft</h2>
+                <ul>
+                    <li>Explain OOPS concepts.</li>
+                    <li>Abstract class vs Interface.</li>
+                    <li>What is deadlock?</li>
+                    <li>Explain microservices architecture.</li>
+                </ul>
+            </div>
+
+            <div class="question-box">
+                <h2>TCS / Infosys / Wipro</h2>
+                <ul>
+                    <li>Explain SDLC models.</li>
+                    <li>Difference between C and Java.</li>
+                    <li>What is normalization?</li>
+                    <li>What are DBMS keys?</li>
+                </ul>
+            </div>
+
+        </div>
+    </main>
+    </div>
+</body>
+
+</html>

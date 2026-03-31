@@ -1,0 +1,21 @@
+question,optionA,optionB,optionC,optionD,correctAnswer,type,category,branch
+Which data structure uses FIFO principle?,Stack,Queue,Tree,Graph,Queue,subject,DS,CSE
+Which data structure uses LIFO principle?,Queue,Array,Stack,Linked list,Stack,subject,DS,CSE
+Which data structure is best suited for implementing recursion?,Queue,Stack,Array,Heap,Stack,subject,DS,CSE
+Which of the following is a linear data structure?,Tree,Graph,Linked list,Heap,Linked list,subject,DS,CSE
+Which data structure allows insertion and deletion at both ends?,Queue,Deque,Stack,Tree,Deque,subject,DS,CSE
+Which of the following is not a linear data structure?,Array,Queue,Tree,Stack,Tree,subject,DS,CSE
+Which data structure is used to implement BFS traversal?,Stack,Queue,Array,Heap,Queue,subject,DS,CSE
+Which data structure is used to implement DFS traversal?,Queue,Stack,Tree,Graph,Stack,subject,DS,CSE
+Which data structure is used in level order traversal of a tree?,Stack,Queue,Array,Linked list,Queue,subject,DS,CSE
+Which of the following is not a primitive data type?,Integer,Float,Array,Character,Array,subject,DS,CSE
+Which data structure is used to represent hierarchical data?,Array,Queue,Tree,Stack,Tree,subject,DS,CSE
+Which data structure is used in priority scheduling?,Queue,Deque,Priority queue,Stack,Priority queue,subject,DS,CSE
+Which data structure is most suitable for implementing undo operation?,Queue,Array,Stack,Linked list,Stack,subject,DS,CSE
+Which of the following is an example of non-linear data structure?,Array,Queue,Stack,Graph,Graph,subject,DS,CSE
+Which data structure is used in expression evaluation?,Queue,Stack,Tree,Graph,Stack,subject,DS,CSE
+Which data structure stores elements in contiguous memory locations?,Linked list,Array,Tree,Graph,Array,subject,DS,CSE
+Which data structure is suitable for implementing adjacency list of a graph?,Array,Linked list,Stack,Queue,Linked list,subject,DS,CSE
+Which data structure is used to implement a circular queue efficiently?,Array,Stack,Deque,Linked list,Array,subject,DS,CSE
+Which data structure is best suited for dynamic memory allocation?,Array,Linked list,Stack,Queue,Linked list,subject,DS,CSE
+Which data structure is commonly used for implementing symbol tables?,Stack,Queue,Hash table,Array,Hash table,subject,DS,CSE

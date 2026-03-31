@@ -1,0 +1,28 @@
+{
+  "name": "minor-project",
+  "version": "1.0.0",
+  "description": "Login system using Node, Express and MongoDB",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "bcrypt": "^6.0.0",
+    "body-parser": "^1.20.4",
+    "connect-mongo": "^6.0.0",
+    "csv-parser": "^3.2.0",
+    "dotenv": "^17.2.3",
+    "ejs": "^5.0.1",
+    "express": "^4.22.1",
+    "express-rate-limit": "^8.3.1",
+    "express-session": "^1.18.2",
+    "mongoose": "^8.21.0",
+    "multer": "^2.0.2",
+    "node-fetch": "^3.3.2",
+    "pdf-parse": "^1.1.1",
+    "pdfkit": "^0.18.0"
+  }
+}

@@ -1,0 +1,21 @@
+question,optionA,optionB,optionC,optionD,correctAnswer,type,category,branch
+Which data structure uses FIFO principle?,Stack,Queue,Tree,Graph,Queue,company,TCS,CSE
+Which of the following is a linear data structure?,Tree,Graph,Queue,Heap,Queue,company,TCS,CSE
+Which data structure is used to implement recursion?,Queue,Array,Stack,Tree,Stack,company,TCS,CSE
+Which traversal technique uses a queue?,DFS,BFS,Inorder,Postorder,BFS,company,TCS,CSE
+Which data structure is best suited for implementing undo operation?,Queue,Array,Stack,Tree,Stack,company,TCS,CSE
+Which of the following is not a linear data structure?,Array,Linked list,Stack,Tree,Tree,company,TCS,CSE
+Which data structure is used in breadth first search?,Stack,Queue,Set,Tree,Queue,company,TCS,CSE
+Which sorting algorithm is easiest to implement?,Quick sort,Merge sort,Bubble sort,Heap sort,Bubble sort,company,TCS,CSE
+Which of the following has best average search time?,Array,Linked list,Binary search tree,Hash table,Hash table,company,TCS,CSE
+Which data structure is used to check balanced parentheses?,Queue,Stack,Array,Linked list,Stack,company,TCS,CSE
+Which data structure is suitable for priority based scheduling?,Queue,Stack,Priority queue,Deque,Priority queue,company,TCS,CSE
+Which algorithm is used to find shortest path in weighted graph?,BFS,DFS,Dijkstra algorithm,Prim algorithm,Dijkstra algorithm,company,TCS,CSE
+Which data structure is used for adjacency list representation?,Array,Queue,Linked list,Stack,Linked list,company,TCS,CSE
+Which traversal of BST gives sorted order?,Preorder,Postorder,Inorder,Level order,Inorder,company,TCS,CSE
+Which data structure is used to store hierarchical data?,Array,Stack,Tree,Queue,Tree,company,TCS,CSE
+Which algorithm follows divide and conquer strategy?,Bubble sort,Insertion sort,Merge sort,Selection sort,Merge sort,company,TCS,CSE
+Which data structure supports insertion and deletion at both ends?,Queue,Stack,Deque,Tree,Deque,company,TCS,CSE
+Which data structure is used to detect cycle using DFS?,Queue,Stack,Set,Array,Stack,company,TCS,CSE
+Which data structure is best for implementing symbol table?,Queue,Array,Hash table,Stack,Hash table,company,TCS,CSE
+Which data structure is used in LRU cache implementation?,Queue,Stack,Hash map and doubly linked list,Array,Hash map and doubly linked list,company,TCS,CSE

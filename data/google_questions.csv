@@ -1,0 +1,21 @@
+question,optionA,optionB,optionC,optionD,correctAnswer,type,category,branch
+Which data structure is best suited for BFS traversal?,Stack,Queue,Tree,Heap,Queue,company,Google,CSE
+Which data structure is used to implement recursion?,Queue,Array,Stack,Graph,Stack,company,Google,CSE
+Which of the following has the best average search time?,Array,Linked list,Binary search tree,Hash table,Hash table,company,Google,CSE
+Which algorithm is used to find the shortest path in a graph?,Prim algorithm,Kruskal algorithm,Dijkstra algorithm,DFS algorithm,Dijkstra algorithm,company,Google,CSE
+Which data structure is used in LRU cache implementation?,Queue,Stack,Hash map and doubly linked list,Array,Hash map and doubly linked list,company,Google,CSE
+Which of the following is not a stable sorting algorithm?,Merge sort,Insertion sort,Bubble sort,Quick sort,Quick sort,company,Google,CSE
+Which traversal of BST gives sorted order?,Preorder,Postorder,Inorder,Level order,Inorder,company,Google,CSE
+Which data structure is best for implementing undo operation?,Queue,Array,Stack,Tree,Stack,company,Google,CSE
+Which technique is used in dynamic programming?,Divide and conquer,Greedy method,Overlapping subproblems,Backtracking,Overlapping subproblems,company,Google,CSE
+Which data structure is used to detect cycle in a graph using BFS?,Stack,Queue,Priority queue,Set,Queue,company,Google,CSE
+Which time complexity represents binary search?,O(n),O(log n),O(n log n),O(1),O(log n),company,Google,CSE
+Which data structure is used for adjacency list representation?,Array,Stack,Linked list,Queue,Linked list,company,Google,CSE
+Which of the following is used for fast key based lookup?,Array,Linked list,Hash table,Queue,Hash table,company,Google,CSE
+Which data structure is suitable for implementing priority scheduling?,Queue,Stack,Priority queue,Deque,Priority queue,company,Google,CSE
+Which of the following algorithms is greedy?,Merge sort,Quick sort,Dijkstra algorithm,Binary search,Dijkstra algorithm,company,Google,CSE
+Which tree is used to maintain sorted data dynamically?,Heap,Trie,Binary search tree,Graph,Binary search tree,company,Google,CSE
+Which data structure is used in topological sorting?,Stack,Queue,Array,Tree,Stack,company,Google,CSE
+Which data structure is used to check balanced parentheses?,Queue,Array,Stack,Linked list,Stack,company,Google,CSE
+Which structure is best for implementing a dictionary?,Queue,Stack,Hash table,Tree,Hash table,company,Google,CSE
+Which data structure is used in breadth first search?,Stack,Queue,Tree,Set,Queue,company,Google,CSE

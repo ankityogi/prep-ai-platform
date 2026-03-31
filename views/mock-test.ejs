@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mock Test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Unified Top Navbar -->
+    <%- include('partials/navbar', { activePage: 'mock-test' }) %>
+
+
+    <!-- Main layout -->
+    <div class="main-layout">
+
+        <!-- Sidebar -->
+
+        <!-- Content -->
+        <div class="content">
+
+            <h1>Mock Test</h1>
+
+            <p id="timer"><strong>Time Left:</strong> <span id="timeText">10:00</span></p>
+
+            <div id="qaCard" class="mock-card">
+
+                <h3 id="questionText"></h3>
+
+                <div id="optionsBox"></div>
+
+                <div class="mock-nav">
+                    <button class="btn btn-outline" id="prevBtn" onclick="prevQuestion()">Previous</button>
+                    <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Next</button>
+                </div>
+
+            </div>
+
+            <div id="resultBox" style="margin-top:20px;font-weight:bold;"></div>
+
+            <button class="btn btn-success" id="startBtn" onclick="startTest()">Start Test</button>
+            <button class="btn btn-warning" id="submitBtn" onclick="submitTest()" disabled>Submit Test</button>
+
+        </div>
+
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const testType = params.get("type");
+        let testValue = params.get("value");
+        let questions = [];
+        let currentIndex = 0;
+        let answers = [];
+        let timerInterval = null;
+        let remainingSeconds = 600; // 10 minutes
+        
+        if (testType === "jd") {
+            testValue = sessionStorage.getItem("customJD");
+            if (!testValue) {
+                alert("Job Description missing. Please try again.");
+                window.location.href = "/mock-test-home";
+            }
+        }
+
+        async function startTest() {
+            try {
+                document.getElementById("startBtn").innerText = "Loading...";
+
+                const res = await fetch("/api/mock-test/start", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials: "same-origin",
+                    body: JSON.stringify({
+                        type: testType,
+                        value: testValue
+                    })
+                });
+
+                if (!res.ok) {
+                    const err = await res.json();
+                    throw new Error(err.error || "Failed to start test");
+                }
+
+                const data = await res.json();
+
+                questions = data.questions;
+                currentIndex = 0;
+                answers = [];
+
+                document.getElementById("startBtn").disabled = true;
+                document.getElementById("startBtn").innerText = "Started";
+                document.getElementById("nextBtn").disabled = false;
+                document.getElementById("submitBtn").disabled = false;
+
+                showQuestion();
+                startTimer();
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById("questionText").innerText =
+                    "Unable to start mock test. Please try again.";
+                document.getElementById("startBtn").innerText = "Start Test";
+            }
+        }
+
+
+        function showQuestion() {
+
+            const q = questions[currentIndex];
+
+            document.getElementById("questionText").innerText =
+                "Question " + (currentIndex + 1) + ": " + q.question;
+
+            const box = document.getElementById("optionsBox");
+            box.innerHTML = "";
+
+            q.options.forEach((opt) => {
+
+                const checked = answers[currentIndex] === opt ? "checked" : "";
+
+                box.innerHTML += `
+            <label style="
+                display:grid;
+                grid-template-columns: 1fr auto;
+                gap:16px;
+                width:100%;
+                padding:14px 16px;
+                margin-bottom:12px;
+                background:#ffffff;
+                border-radius:10px;
+                cursor:pointer;
+                box-shadow:0 2px 6px rgba(0,0,0,0.05);
+                align-items:start;
+            ">
+                <span style="
+                    width:100%;
+                    line-height:1.5;
+                    word-break:break-word;
+                ">
+                    ${opt}
+                </span>
+
+                <input type="radio"
+                       name="mcq"
+                       value="${opt.replace(/"/g, '&quot;')}"
+                       ${checked}
+                       onchange="saveMCQ(this.value)">
+            </label>
+        `;
+            });
+            document.getElementById("prevBtn").disabled = currentIndex === 0;
+            document.getElementById("nextBtn").disabled = currentIndex === questions.length - 1;
+
+        }
+
+        function saveMCQ(value) {
+            answers[currentIndex] = value;
+        }
+
+        function prevQuestion() {
+
+            if (currentIndex > 0) {
+                currentIndex--;
+                showQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentIndex < questions.length - 1) {
+                currentIndex++;
+                showQuestion();
+            } else {
+                alert("You have reached the last question.");
+            }
+        }
+
+
+
+        async function submitTest() {
+
+            try {
+
+                stopTimer();
+
+                const res = await fetch("/api/mock-test/submit", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials: "same-origin",
+                    body: JSON.stringify({ answers: answers })
+                });
+
+
+                if (!res.ok) {
+                    throw new Error("Submit failed");
+                }
+
+                const data = await res.json();
+
+                document.getElementById("resultBox").innerText =
+                    "Your Score : " + data.score + " / " + data.total;
+
+                document.getElementById("nextBtn").disabled = true;
+                document.getElementById("submitBtn").disabled = true;
+
+            } catch (err) {
+                document.getElementById("resultBox").innerText =
+                    "Failed to submit mock test. Please try again.";
+            }
+        }
+
+
+        /* ---------------- Timer ---------------- */
+
+        function startTimer() {
+            updateTimerText();
+
+            timerInterval = setInterval(() => {
+                remainingSeconds--;
+
+                if (remainingSeconds <= 0) {
+                    stopTimer();
+                    submitTest();
+                }
+
+                updateTimerText();
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function updateTimerText() {
+            const min = Math.floor(remainingSeconds / 60);
+            const sec = remainingSeconds % 60;
+
+            document.getElementById("timeText").innerText =
+                String(min).padStart(2, "0") + ":" + String(sec).padStart(2, "0");
+        }
+    </script>
+</body>
+</html>

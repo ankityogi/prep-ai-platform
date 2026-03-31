@@ -1,0 +1,21 @@
+question,optionA,optionB,optionC,optionD,correctAnswer,type,category,branch
+What is the main function of an operating system?,Memory management,Process management,Resource management,All of the above,All of the above,subject,OS,CSE
+Which of the following is not an operating system?,Windows,Linux,Oracle,Mac OS,Oracle,subject,OS,CSE
+Which OS component handles process scheduling?,File system,Kernel,Shell,Command interpreter,Kernel,subject,OS,CSE
+Which scheduling algorithm gives minimum average waiting time?,FCFS,Round Robin,SJF,Priority,SJF,subject,OS,CSE
+What is a process?,A program in execution,A program in memory,A CPU instruction,A thread,A program in execution,subject,OS,CSE
+Which of the following is used for deadlock prevention?,Preemption,Mutual exclusion,Hold and wait,Circular wait,Preemption,subject,OS,CSE
+Which memory management technique suffers from external fragmentation?,Paging,Segmentation,Virtual memory,Cache,Segmentation,subject,OS,CSE
+Which memory management technique avoids external fragmentation?,Segmentation,Swapping,Paging,Partitioning,Paging,subject,OS,CSE
+Which of the following is not a state of a process?,New,Ready,Waiting,Finished,Finished,subject,OS,CSE
+Which of the following is a non-preemptive scheduling algorithm?,Round Robin,Priority,SJF,Multilevel queue,SJF,subject,OS,CSE
+Which system call is used to create a new process in UNIX?,fork(),exec(),wait(),exit(),fork(),subject,OS,CSE
+Which of the following causes a context switch?,Interrupt,System call,Time slice expiry,All of the above,All of the above,subject,OS,CSE
+Which is the smallest unit of CPU scheduling?,Process,Thread,Program,Instruction,Thread,subject,OS,CSE
+Which disk scheduling algorithm minimizes seek time?,FCFS,SCAN,SSTF,C-SCAN,SSTF,subject,OS,CSE
+Which of the following is used for mutual exclusion?,Semaphore,Monitor,Mutex,All of the above,All of the above,subject,OS,CSE
+Which of the following is a real time operating system?,Linux,Windows,RTLinux,Mac OS,RTLinux,subject,OS,CSE
+Which of the following is not a deadlock condition?,Mutual exclusion,Hold and wait,No preemption,Starvation,Starvation,subject,OS,CSE
+Which of the following is responsible for memory protection?,Compiler,Loader,Operating system,Assembler,Operating system,subject,OS,CSE
+Which technique is used to execute more than one program concurrently?,Multiprocessing,Multiprogramming,Multithreading,Multitasking,Multiprogramming,subject,OS,CSE
+Which of the following manages hardware resources?,Shell,Kernel,File system,Command interpreter,Kernel,subject,OS,CSE

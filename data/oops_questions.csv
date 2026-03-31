@@ -1,0 +1,21 @@
+question,optionA,optionB,optionC,optionD,correctAnswer,type,category,branch
+Which concept allows the same function name to be used for different purposes?,Inheritance,Encapsulation,Polymorphism,Abstraction,Polymorphism,subject,OOPS,CSE
+Which feature of OOP is used to hide internal details?,Inheritance,Encapsulation,Polymorphism,Abstraction,Encapsulation,subject,OOPS,CSE
+Which concept represents real world entities?,Class,Object,Method,Package,Object,subject,OOPS,CSE
+Which mechanism allows a class to acquire properties of another class?,Polymorphism,Encapsulation,Inheritance,Abstraction,Inheritance,subject,OOPS,CSE
+Which concept focuses on showing only essential details?,Inheritance,Encapsulation,Polymorphism,Abstraction,Abstraction,subject,OOPS,CSE
+Which of the following is not an OOP concept?,Encapsulation,Polymorphism,Compilation,Inheritance,Compilation,subject,OOPS,CSE
+Which keyword is used to create an object in Java?,class,new,create,object,new,subject,OOPS,CSE
+Which of the following supports runtime polymorphism?,Function overloading,Method overloading,Method overriding,Constructor overloading,Method overriding,subject,OOPS,CSE
+Which concept binds data and methods together?,Inheritance,Encapsulation,Abstraction,Polymorphism,Encapsulation,subject,OOPS,CSE
+Which is used to achieve abstraction in Java?,Class,Object,Interface,Constructor,Interface,subject,OOPS,CSE
+Which term describes the ability of an object to take many forms?,Inheritance,Encapsulation,Polymorphism,Abstraction,Polymorphism,subject,OOPS,CSE
+Which is a blueprint of an object?,Class,Method,Package,Constructor,Class,subject,OOPS,CSE
+Which allows multiple methods with same name but different parameters?,Method overriding,Method overloading,Inheritance,Encapsulation,Method overloading,subject,OOPS,CSE
+Which access modifier allows access only within the same class?,public,protected,private,default,private,subject,OOPS,CSE
+Which access modifier allows access within same package and subclasses?,public,protected,private,default,protected,subject,OOPS,CSE
+Which keyword is used to inherit a class in Java?,implements,extends,inherit,super,extends,subject,OOPS,CSE
+Which keyword is used to implement an interface?,extends,implements,interface,new,implements,subject,OOPS,CSE
+Which of the following supports multiple inheritance in Java?,Class,Abstract class,Interface,Object,Interface,subject,OOPS,CSE
+Which method is automatically called when an object is created?,main(),finalize(),constructor,start(),constructor,subject,OOPS,CSE
+Which concept improves code reusability?,Encapsulation,Inheritance,Abstraction,Polymorphism,Inheritance,subject,OOPS,CSE

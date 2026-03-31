@@ -1,0 +1,21 @@
+question,optionA,optionB,optionC,optionD,correctAnswer,type,category,branch
+The _______ is the physical path over which a message travels,Protocol,path,Medium,Route,Medium,subject,CN,CSE
+What kind of transmission medium is most appropriate to carry data in a computer network that is exposed to electrical interferences?,Unshielded twisted pair,Optical fiber,Coaxial cable,Microwave,Optical fiber,subject,CN,CSE
+Communication between a computer and a keyboard involves __________ transmission.,Automatic,Half-duplex,Full-duplex,Simplex,Simplex,subject,CN,CSE
+The first network was called ________,CNNET,NSFNET,ASAPNET,ARPANET,ARPANET,subject,CN,CSE
+A ________ set of rules that governs data communication.,Protocols,Standards,RFCs,Servers,Protocols,subject,CN,CSE
+Three or more devices share a link in ________ connection.,Unipoint,Multipoint,Point to point,Simplex,Multipoint,subject,CN,CSE
+Two devices are in network if __________,A process in one device is able to exchange information with a process in another device,A process is running on both devices,PIDs of the processes running of different devices are same,A process is active and another is inactive,A process in one device is able to exchange information with a process in another device,subject,CN,CSE
+A __________ is a device that forwards packets between networks by processing the routing information included in the packet.,Bridge,Firewall,Router,Hub,Router,subject,CN,CSE
+Network congestion occurs _________,In case of traffic overloading,When a system terminates,When connection between two nodes terminates,In case of transfer failure,In case of traffic overloading,subject,CN,CSE
+Which network topology requires a central controller or hub?,Star,Mesh,Ring,Bus,Star,subject,CN,CSE
+_______ topology requires a multipoint connection.,Star,Mesh,Ring,Bus,Bus,subject,CN,CSE
+Data communication system within a building or campus is________,LAN,WAN,MAN,PAN,LAN,subject,CN,CSE
+In TDM slots are fixed and shared by all devices,True,False,Partially true,Not applicable,False,subject,CN,CSE
+The number of layers in the OSI model is,5,6,7,8,7,subject,CN,CSE
+Which layer of OSI model is responsible for routing?,Data link layer,Transport layer,Network layer,Session layer,Network layer,subject,CN,CSE
+Which layer is responsible for encryption and compression?,Presentation layer,Session layer,Transport layer,Application layer,Presentation layer,subject,CN,CSE
+Which layer establishes maintains and synchronizes the interaction between communicating systems?,Session layer,Transport layer,Network layer,Data link layer,Session layer,subject,CN,CSE
+Which device operates at the data link layer?,Router,Repeater,Bridge,Gateway,Bridge,subject,CN,CSE
+Which of the following is a guided transmission medium?,Radio wave,Microwave,Infrared,Optical fiber,Optical fiber,subject,CN,CSE
+Which transmission medium has the highest bandwidth?,Twisted pair,Coaxial cable,Optical fiber,Radio wave,Optical fiber,subject,CN,CSE

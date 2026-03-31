@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | PrepAI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Unified Top Navbar -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <h2 style="color: var(--primary); margin: 0; font-size: 20px;">PrepAI</h2>
+        </div>
+        <div class="nav-actions" style="display: flex; gap: 12px; align-items: center;">
+            <a href="/" style="color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 14px;">Login</a>
+            <a href="/register" style="background: var(--primary); color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 500; font-size: 14px;">Sign Up</a>
+        </div>
+    </nav>
+
+    <div class="auth-wrapper">
+        <div class="box">
+            <h2>Welcome Back</h2>
+
+            <p style="color:var(--danger); margin-bottom: 15px; font-size: 14px;">
+                <script>
+                    const params = new URLSearchParams(window.location.search);
+                    if (params.get("error") === "1") {
+                        document.write("Invalid email or password");
+                    } else if (params.get("error") === "empty") {
+                        document.write("All fields are required");
+                    }
+                </script>
+            </p>
+
+            <form action="/login" method="post">
+                <input type="email" name="email" required placeholder="Enter your email">
+                <input type="password" name="password" required placeholder="Enter your password">
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            </form>
+
+            <p style="margin-top: 25px; font-size: 14px; color: var(--text-muted);">
+                Don't have an account? <a href="/register">Create one</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+# Environment variables
+.env
+.env.test
+
+# Dependencies
+node_modules/
+npm-debug.log*
+
+# Application uploads (Do not sync local images/resumes to GitHub)
+public/uploads/
+uploads/
+
+# Log files
+error.log
+*.log
+
+# Operating System Files
+.DS_Store
+Thumbs.db

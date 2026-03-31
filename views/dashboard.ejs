@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Unified Top Navbar -->
+    <%- include('partials/navbar', { activePage: 'dashboard' }) %>
+
+
+    <div class="app-container">
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <h1>Welcome 👋</h1>
+            <p class="subtitle">This is your interview preparation dashboard.</p>
+
+            <div class="card-grid">
+
+                <!-- cards made clickable -->
+                <a href="/resume" class="card">
+                    <h3>Upload Resume</h3>
+                    <p>Add your resume to generate personalized questions.</p>
+                </a>
+
+                <a href="/interview" class="card">
+                    <h3>Start Interview</h3>
+                    <p>Practice interview questions with AI.</p>
+                </a>
+
+                <a href="/results" class="card">
+                    <h3>View Results</h3>
+                    <p>Check your communication and technical scores.</p>
+                </a>
+
+                <a href="/top-questions" class="card">
+                    <h3>Top Interview Questions</h3>
+                    <p>View frequently asked interview questions.</p>
+                </a>
+
+            </div>
+
+            <div class="card" onclick="startLiveInterview()" style="cursor:pointer;">
+                <h3>Live Interview</h3>
+                <p>Start 1-to-1 Video Interview</p>
+            </div>
+
+        </main>
+
+    </div>
+<script>
+    function startLiveInterview() {
+        window.location.href = "/live-interview";
+    }
+</script>
+</body>
+
+
+</html>

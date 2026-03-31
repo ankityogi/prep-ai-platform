@@ -1,0 +1,21 @@
+question,optionA,optionB,optionC,optionD,correctAnswer,type,category,branch
+Which SDLC model follows a sequential approach?,Agile,Spiral,Waterfall,Prototype,Waterfall,subject,SE,CSE
+Which model is best suited for projects with changing requirements?,Waterfall,V-Model,Agile,Spiral,Agile,subject,SE,CSE
+Which of the following is not a phase of SDLC?,Requirement analysis,Design,Implementation,Marketing,Marketing,subject,SE,CSE
+Which testing is done by developers?,System testing,Acceptance testing,Unit testing,Alpha testing,Unit testing,subject,SE,CSE
+Which document describes system functionalities?,SRS,Design document,Test plan,User manual,SRS,subject,SE,CSE
+Which software process model emphasizes risk analysis?,Waterfall,Spiral,Agile,Incremental,Spiral,subject,SE,CSE
+Which testing ensures that the system meets user requirements?,Unit testing,Integration testing,System testing,Acceptance testing,Acceptance testing,subject,SE,CSE
+Which metric measures software size?,LOC,Cyclomatic complexity,Defect density,MTTF,LOC,subject,SE,CSE
+Which of the following is a black box testing technique?,Statement coverage,Path coverage,Equivalence partitioning,Condition coverage,Equivalence partitioning,subject,SE,CSE
+Which of the following is a white box testing technique?,Boundary value analysis,Equivalence partitioning,Decision table testing,Statement coverage,Statement coverage,subject,SE,CSE
+Which model delivers software in small usable pieces?,Waterfall,Incremental,Spiral,V-Model,Incremental,subject,SE,CSE
+Which phase identifies what the system should do?,Design,Implementation,Requirement analysis,Testing,Requirement analysis,subject,SE,CSE
+Which is not a software quality attribute?,Reliability,Maintainability,Scalability,Compilation,Compilation,subject,SE,CSE
+Which testing is performed after system testing?,Unit testing,Integration testing,Acceptance testing,Regression testing,Acceptance testing,subject,SE,CSE
+Which tool is used for project scheduling?,DFD,ER diagram,Gantt chart,Flowchart,Gantt chart,subject,SE,CSE
+Which of the following is a functional requirement?,Response time,Security level,Login feature,Maintainability,Login feature,subject,SE,CSE
+Which activity verifies that software meets specifications?,Validation,Verification,Maintenance,Deployment,Verification,subject,SE,CSE
+Which activity ensures the right product is built?,Verification,Validation,Testing,Debugging,Validation,subject,SE,CSE
+Which model is also known as linear sequential model?,Spiral,Agile,Waterfall,Prototype,Waterfall,subject,SE,CSE
+Which of the following is a non-functional requirement?,User authentication,Report generation,Performance,File upload,Performance,subject,SE,CSE

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Reviews</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .reviews-container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .avg-rating {
+            background: #ffffff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .review-form {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .stars {
+            font-size: 25px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .stars span { color: #ccc; }
+        .stars span.active { color: #f5b301; }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            resize: none;
+            margin-bottom: 15px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #4e73df, #6f42c1);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .review-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .review-card h4 { margin-bottom: 5px; }
+        .review-stars { color: #f5b301; margin-bottom: 10px; }
+        .review-date { font-size: 12px; color: gray; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- Unified Top Navbar -->
+    <%- include('partials/navbar', { activePage: 'reviews' }) %>
+    
+    <div class="app-container">
+        <main class="main-content">
+            <div class="reviews-container">
+
+                <div class="reviews-header">
+                    <h2>User Experience Reviews</h2>
+                    <div class="avg-rating">
+                        ⭐ <span id="avgRating">0</span> Average Rating
+                    </div>
+                </div>
+
+                <h3 style="margin-top:0;">Write a Review</h3>
+                <div class="review-form">
+                    <div class="stars" id="starRating">
+                        <span data-value="1">★</span>
+                        <span data-value="2">★</span>
+                        <span data-value="3">★</span>
+                        <span data-value="4">★</span>
+                        <span data-value="5">★</span>
+                    </div>
+
+                    <textarea id="comment" placeholder="Write your experience..."></textarea>
+
+                    <button class="btn btn-primary btn-block" onclick="submitReview()">Submit Review</button>
+
+                </div>
+
+                <div class="reviews-grid" id="reviewsContainer"></div>
+
+            </div>
+
+<script>
+let selectedRating = 0;
+const stars = document.querySelectorAll("#starRating span");
+
+stars.forEach(star => {
+    star.addEventListener("click", function() {
+        selectedRating = this.dataset.value;
+        stars.forEach(s => s.classList.remove("active"));
+        for (let i = 0; i < selectedRating; i++) {
+            stars[i].classList.add("active");
+        }
+    });
+});
+
+async function loadReviews() {
+    const res = await fetch("/api/reviews");
+    const data = await res.json();
+    document.getElementById("avgRating").innerText = data.averageRating || 0;
+    const container = document.getElementById("reviewsContainer");
+    container.innerHTML = "";
+
+    if (!data.reviews.length) {
+        container.innerHTML = "<p>No reviews yet.</p>";
+        return;
+    }
+
+    data.reviews.forEach(r => {
+        container.innerHTML += `
+            <div class="review-card">
+                <h4>${r.name}</h4>
+                <div class="review-stars">
+                    ${"★".repeat(r.rating)}
+                </div>
+                <p>${r.comment}</p>
+                <div class="review-date">
+                    ${new Date(r.createdAt).toLocaleDateString()}
+                </div>
+            </div>
+        `;
+    });
+}
+
+async function submitReview() {
+    if (!selectedRating) {
+        alert("Please select rating");
+        return;
+    }
+    const comment = document.getElementById("comment").value;
+    const res = await fetch("/api/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+            rating: selectedRating,
+            comment
+        })
+    });
+    const data = await res.json();
+
+    alert(data.message || data.error);
+
+    document.getElementById("comment").value = "";
+    selectedRating = 0;
+    stars.forEach(s => s.classList.remove("active"));
+
+    loadReviews();
+}
+
+window.onload = loadReviews;
+</script>
+        </main>
+    </div>
+</body>
+</html>

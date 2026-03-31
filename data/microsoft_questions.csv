@@ -1,0 +1,21 @@
+question,optionA,optionB,optionC,optionD,correctAnswer,type,category,branch
+Which data structure is best suited for implementing a dictionary?,Queue,Stack,Hash table,Array,Hash table,company,Microsoft,CSE
+Which traversal of a binary search tree gives sorted output?,Preorder,Postorder,Inorder,Level order,Inorder,company,Microsoft,CSE
+Which data structure is used to check balanced parentheses?,Queue,Stack,Array,Linked list,Stack,company,Microsoft,CSE
+Which algorithm is used to find shortest path in a weighted graph?,DFS,BFS,Dijkstra algorithm,Prim algorithm,Dijkstra algorithm,company,Microsoft,CSE
+Which data structure is most suitable for implementing LRU cache?,Queue,Stack,Hash map and doubly linked list,Array,Hash map and doubly linked list,company,Microsoft,CSE
+Which sorting algorithm has best average case time complexity?,Bubble sort,Insertion sort,Merge sort,Selection sort,Merge sort,company,Microsoft,CSE
+Which data structure is used to represent hierarchical data?,Array,Stack,Tree,Queue,Tree,company,Microsoft,CSE
+Which of the following supports fast key based lookup?,Array,Linked list,Hash table,Stack,Hash table,company,Microsoft,CSE
+Which data structure is best for implementing priority scheduling?,Queue,Stack,Priority queue,Deque,Priority queue,company,Microsoft,CSE
+Which algorithm uses divide and conquer technique?,Bubble sort,Merge sort,Insertion sort,Selection sort,Merge sort,company,Microsoft,CSE
+Which data structure is used in topological sorting?,Queue,Stack,Tree,Deque,Stack,company,Microsoft,CSE
+Which data structure is best for implementing undo operation?,Queue,Stack,Array,Tree,Stack,company,Microsoft,CSE
+Which data structure is used for adjacency list representation of graph?,Array,Queue,Linked list,Stack,Linked list,company,Microsoft,CSE
+Which of the following has average case search time O(1)?,Array,Linked list,Binary search tree,Hash table,Hash table,company,Microsoft,CSE
+Which data structure is used to implement recursion?,Queue,Array,Stack,Tree,Stack,company,Microsoft,CSE
+Which algorithm is used to find minimum spanning tree?,Dijkstra algorithm,Bellman Ford,Prim algorithm,DFS,Prim algorithm,company,Microsoft,CSE
+Which data structure supports insertion and deletion at both ends?,Queue,Deque,Stack,Tree,Deque,company,Microsoft,CSE
+Which traversal is used in breadth first search?,Inorder,Preorder,Postorder,Level order,Level order,company,Microsoft,CSE
+Which data structure is used to detect cycle in graph using DFS?,Queue,Stack,Set,Array,Stack,company,Microsoft,CSE
+Which data structure is best for implementing symbol table?,Queue,Stack,Hash table,Array,Hash table,company,Microsoft,CSE

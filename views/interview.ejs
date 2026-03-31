@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>AI Interview</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Include marked.js for parsing Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        /* Add some basic styles for the markdown rendered content so it looks clean */
+        #feedback p { margin-top: 0; margin-bottom: 15px; line-height: 1.5; color: #333; }
+        #feedback ul, #feedback ol { margin-top: 0; margin-bottom: 15px; padding-left: 20px; }
+        #feedback li { margin-bottom: 8px; line-height: 1.5; }
+        #feedback strong { color: #111; }
+        #feedback hr { border: 0; border-top: 1px solid #ccc; margin: 20px 0; }
+    </style>
+</head>
+
+<body>
+
+    <!-- Unified Top Navbar -->
+    <%- include('partials/navbar', { activePage: 'interview' }) %>
+
+    <!-- MAIN LAYOUT -->
+    <div class="container">
+
+        <!-- SIDEBAR -->
+
+        <!-- CONTENT -->
+        <div class="content">
+            <h1>AI Interview</h1>
+
+            <div id="setup-section" style="margin-bottom:20px; padding:20px; border:1px solid #ddd; border-radius:8px; background-color:#f8f9fa;">
+                <h3 style="margin-top:0;">Interview Setup</h3>
+                <p style="color:#555; font-size:0.9em; margin-bottom:15px;">Tell the AI about your target role so it can ask relevant questions.</p>
+                
+                <div style="margin-bottom: 15px;">
+                    <label for="field-select" style="font-weight:bold; display:inline-block; width:100px;">Field: </label>
+                    <select id="field-select" style="padding:8px; width:200px; border-radius:4px; border:1px solid #ccc;">
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Data Science">Data Science</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Human Resources">Human Resources</option>
+                        <option value="Engineering">Engineering</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label for="branch-select" style="font-weight:bold; display:inline-block; width:100px;">Role/Branch: </label>
+                    <input type="text" id="branch-select" placeholder="e.g., React Developer" style="padding:8px; width:182px; border-radius:4px; border:1px solid #ccc;" />
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <label for="type-select" style="font-weight:bold; display:inline-block; width:100px;">Format: </label>
+                    <select id="type-select" style="padding:8px; width:200px; border-radius:4px; border:1px solid #ccc;">
+                        <option value="technical">Technical Interview</option>
+                        <option value="behavioral">HR / Behavioral (STAR)</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-success" onclick="startInterviewSession()">Start Session</button>
+            </div>
+
+            <div id="interview-section" style="display:none;">
+                <div style="display:flex; gap: 20px; flex-wrap: wrap;">
+                <div style="flex:1; min-width: 300px;">
+                    <video id="webcam" autoplay muted style="width:100%; max-height:400px; background:#000; border:2px solid #ccc; border-radius:8px;"></video>
+                    <div id="cam-controls" style="margin-top:10px; text-align:center;">
+                        <button class="btn btn-success" onclick="startCamera()">Start Camera & Mic</button>
+                    </div>
+                </div>
+                
+                <div style="flex:1; display:flex; flex-direction:column; min-width: 300px;">
+                    <button class="btn btn-primary" onclick="getQuestion()">Get Next Question</button>
+                    <p id="question" style="margin-top:20px; font-weight:bold; font-size:1.2em; color:#333;"></p>
+
+                    <div id="record-buttons" style="display:none; gap:10px; margin-top:10px;">
+                        <button id="start-btn" class="btn btn-danger" onclick="startRecordingAnswer()">🎙️ Start Answering</button>
+                        <button id="stop-btn" class="btn btn-secondary" onclick="stopRecordingAnswer()" style="display:none;">⏹️ Stop Answering</button>
+                    </div>
+
+                    <textarea id="answer" rows="6" placeholder="Your spoken answer will appear here, or you can type..."
+                        style="width:100%; margin-top:10px; padding:10px; border-radius:5px; border:1px solid #ccc; font-size:1em;"></textarea>
+
+                    <button class="btn btn-warning" onclick="submitAnswer()" style="margin-top:15px;">Finish & Submit Answer</button>
+
+                    <div style="margin-top:20px; padding:15px; border-left:4px solid #2196F3; background-color:#e3f2fd; border-radius:4px;">
+                        <h4 style="margin:0 0 10px 0;">🤖 Live AI Coach:</h4>
+                        <p id="live-feedback" style="margin:0; color:#1565c0; font-weight:500; font-size:0.95em; min-height:40px;">Waiting for you to start speaking...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="final-feedback-container" style="display:none; margin-top:20px; padding:15px; border:1px solid #4CAF50; border-radius:8px; background-color:#e8f5e9;">
+                <h3 style="color:#2e7d32; margin-top:0; margin-bottom:15px;">Final Evaluation</h3>
+                <div id="feedback" style="font-family: inherit; margin:0; font-size:1.05em;"></div>
+            </div>
+            </div> <!-- End interview-section -->
+        </div>
+
+    </div>
+
+    <script>
+        let mediaStream = null;
+        let recognition = null;
+        let isRecording = false;
+        let analysisInterval = null;
+        let confirmedText = "";
+        let silenceTimer = null;
+        let interviewHistory = [];
+        
+        let selectedField = "Computer Science";
+        let selectedBranch = "General";
+        let selectedType = "technical";
+
+        const synth = window.speechSynthesis;
+        
+        function speakText(text, onEndCallback = null) {
+            if (synth.speaking) {
+                synth.cancel(); // Stop talking if currently speaking
+            }
+            if (text !== '') {
+                const utterThis = new SpeechSynthesisUtterance(text);
+                
+                // Optional: try to find a natural English voice
+                const voices = synth.getVoices();
+                const engVoice = voices.find(v => v.lang.includes('en-') && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Premium')));
+                if (engVoice) utterThis.voice = engVoice;
+                
+                utterThis.rate = 1;      // Speed (1 is default)
+                utterThis.pitch = 1.05;  // Slightly higher pitch
+                
+                if (onEndCallback) {
+                    utterThis.onend = onEndCallback;
+                    utterThis.onerror = onEndCallback; // Fallback to prevent hanging
+                }
+                
+                synth.speak(utterThis);
+            } else if (onEndCallback) {
+                onEndCallback();
+            }
+        }
+
+        function startInterviewSession() {
+            selectedField = document.getElementById("field-select").value;
+            const branchInput = document.getElementById("branch-select").value.trim();
+            selectedBranch = branchInput ? branchInput : "General";
+            selectedType = document.getElementById("type-select").value;
+            
+            document.getElementById("setup-section").style.display = "none";
+            document.getElementById("interview-section").style.display = "block";
+        }
+
+        async function startCamera() {
+            try {
+                mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                document.getElementById("webcam").srcObject = mediaStream;
+                document.getElementById("cam-controls").style.display = "none";
+                document.getElementById("live-feedback").innerText = "Camera connected. Click 'Get Next Question' to begin.";
+            } catch (err) {
+                alert("Camera and Microphone access is required for the AI Interview.");
+                console.error(err);
+            }
+        }
+
+        function startSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                document.getElementById("live-feedback").innerText = "Speech Recognition not supported in this browser. Please use Chrome.";
+                return;
+            }
+            
+            recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            
+            recognition.onerror = (event) => {
+                console.error("Speech Recognition Error:", event.error);
+                if(event.error === 'not-allowed') {
+                    document.getElementById("live-feedback").innerText = "Microphone access denied. Please click the lock icon in the URL bar to allow.";
+                }
+            };
+            
+            recognition.onresult = (event) => {
+                let interimTranscript = '';
+                
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        confirmedText += event.results[i][0].transcript + " ";
+                    } else {
+                        interimTranscript += event.results[i][0].transcript;
+                    }
+                }
+                
+                document.getElementById("answer").value = confirmedText + interimTranscript;
+                
+                if (silenceTimer) clearTimeout(silenceTimer);
+                
+                silenceTimer = setTimeout(() => {
+                    const ans = document.getElementById("answer").value.trim();
+                    if (ans.length > 5 && isRecording) {
+                        console.log("Silence detected. Auto-submitting...");
+                        document.getElementById("live-feedback").innerText = "Silence detected. Submitting answer automatically...";
+                        submitAnswer();
+                    }
+                }, 5000);
+            };
+            
+            recognition.onend = () => {
+                if (isRecording) {
+                    setTimeout(() => {
+                        try {
+                            recognition.start();
+                        } catch(e) {
+                            console.error("Error restarting recognition:", e);
+                        }
+                    }, 50);
+                }
+            };
+            
+            // Allow user typing without getting overwritten by taking their input 
+            // and syncing it to confirmedText, but only when we aren't displaying interim results.
+            document.getElementById("answer").oninput = (e) => {
+                // To avoid baking interim text into confirmed text, we should ideally 
+                // only sync this when speech is paused, but a simple override is okay.
+                confirmedText = e.target.value;
+            };
+            
+            recognition.start();
+            isRecording = true;
+            document.getElementById("live-feedback").innerText = "Listening... Speak your answer clearly. I am analyzing your posture and speech.";
+        }
+
+        async function sendLiveAnalysisFrame() {
+            const currentQuestion = document.getElementById("question").innerText;
+            if (!currentQuestion) return; // Don't analyze if no question is asked yet
+            
+            const video = document.getElementById("webcam");
+            if (!video.videoWidth) return; // Wait till video is fully playing
+
+            // Capture frame from video
+            const canvas = document.createElement("canvas");
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // Convert to base64 jpeg
+            const frameBase64 = canvas.toDataURL("image/jpeg", 0.5); // 50% quality to save bandwidth
+            const currentAnswer = document.getElementById("answer").value;
+            
+            try {
+                const res = await fetch("/api/ai/live-feedback", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        question: currentQuestion,
+                        answer: currentAnswer,
+                        image: frameBase64
+                    }),
+                    credentials: "same-origin"
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.feedback) {
+                        document.getElementById("live-feedback").innerText = data.feedback;
+                    }
+                }
+            } catch (err) {
+                console.error("Live analysis API error:", err);
+            }
+        }
+
+        async function getQuestion(isFollowUp = false) {
+            try {
+                // Clear the UI while requesting
+                document.getElementById("question").innerText = "Generating question...";
+                document.getElementById("record-buttons").style.display = "none";
+                
+                const payload = { field: selectedField, branch: selectedBranch, type: selectedType };
+                if (isFollowUp && interviewHistory.length > 0) {
+                    payload.history = interviewHistory;
+                }
+                
+                const res = await fetch("/api/ai/question", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                    credentials: "same-origin"
+                });
+
+                if (!res.ok) {
+                    throw new Error("Request failed");
+                }
+
+                const data = await res.json();
+                document.getElementById("question").innerText = data.question;
+                
+                // Speak the new question out loud, and auto-start recording when finished!
+                speakText(data.question, () => {
+                    if (mediaStream && !isRecording) {
+                        startRecordingAnswer();
+                    }
+                });
+                
+                // Reset answer for new question
+                document.getElementById("answer").value = "";
+                confirmedText = "";
+                document.getElementById("final-feedback-container").style.display = "none";
+                document.getElementById("feedback").innerHTML = "";
+                
+                if (mediaStream) {
+                    document.getElementById("record-buttons").style.display = "flex";
+                    document.getElementById("start-btn").style.display = "block";
+                    document.getElementById("stop-btn").style.display = "none";
+                    document.getElementById("live-feedback").innerText = "Ready. Click 'Start Answering' when you are ready to speak.";
+                } else {
+                    document.getElementById("live-feedback").innerText = "Please Start Camera & Mic first.";
+                }
+
+            } catch (err) {
+                document.getElementById("question").innerText =
+                    "Unable to load question. Please login again.";
+            }
+        }
+
+        async function submitAnswer() {
+            const answer = document.getElementById("answer").value;
+            const currentQuestion = document.getElementById("question").innerText;
+
+            if (!answer.trim()) {
+                alert("Please provide an answer before submitting.");
+                return;
+            }
+
+            // Stop recording
+            stopRecordingAnswer();
+            document.getElementById("record-buttons").style.display = "none";
+            
+            interviewHistory.push({ question: currentQuestion, answer: answer });
+
+            document.getElementById("final-feedback-container").style.display = "block";
+            document.getElementById("feedback").innerHTML = "<p>Analyzing answer... please wait.</p>";
+            document.getElementById("live-feedback").innerText = "Interview evaluate check point...";
+            
+            try {
+                const res = await fetch("/api/ai/evaluate", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        type: selectedType,
+                        question: currentQuestion,
+                        answer: answer
+                    }),
+                    credentials: "same-origin"
+                });
+                
+                if (res.ok) {
+                    const data = await res.json();
+                    document.getElementById("feedback").innerHTML = marked.parse(data.evaluation);
+                    
+                    document.getElementById("live-feedback").innerText = "Generating follow-up question automatically...";
+                    
+                    speakText("Got it. Let's move on to the next question.", () => {
+                        getQuestion(true);
+                    });
+                } else {
+                    document.getElementById("feedback").innerHTML = "<p style='color:red;'>Error evaluating answer.</p>";
+                }
+            } catch (err) {
+                document.getElementById("feedback").innerHTML = "<p style='color:red;'>Error communicating with server.</p>";
+                console.error(err);
+            }
+        }
+
+        function startRecordingAnswer() {
+            if (!mediaStream) {
+                alert("Please Start Camera & Mic first.");
+                return;
+            }
+            
+            // If the AI is still reading the question, stop it so it doesn't talk over the user
+            if (synth.speaking) {
+                synth.cancel();
+            }
+            
+            document.getElementById("start-btn").style.display = "none";
+            document.getElementById("stop-btn").style.display = "block";
+            
+            startSpeechRecognition();
+            if (!analysisInterval) {
+                analysisInterval = setInterval(sendLiveAnalysisFrame, 30000);
+            }
+        }
+
+        function stopRecordingAnswer() {
+            document.getElementById("start-btn").style.display = "block";
+            document.getElementById("stop-btn").style.display = "none";
+            
+            if (recognition && isRecording) {
+                isRecording = false;
+                recognition.stop();
+            }
+            if (analysisInterval) {
+                clearInterval(analysisInterval);
+                analysisInterval = null;
+            }
+            if (silenceTimer) {
+                clearTimeout(silenceTimer);
+                silenceTimer = null;
+            }
+            document.getElementById("live-feedback").innerText = "Recording stopped. You can review and edit your answer.";
+        }
+    </script>
+</body>
+
+</html>

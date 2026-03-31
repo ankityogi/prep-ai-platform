@@ -1,0 +1,21 @@
+question,option1,option2,option3,option4,correct,type,category
+Which of the following is not a characteristic of a relational database model?,Table,Tree like structure,Complex logical relationship,Records,Tree like structure,subject,DBMS
+Field is otherwise called as ____ of the record,Data item,Data type,Value,Variable,Data item,subject,DBMS
+A table can have only one,Secondary key,Alternate key,Unique key,Primary key,Primary key,subject,DBMS
+A field can be called as ____ in relation context,Random file,Direct file,Attribute,Tuple,Attribute,subject,DBMS
+In the relational model, cardinality is termed as,Number of tuples,Number of attributes,Number of tables,Number of constraints,Number of tuples,subject,DBMS
+The ____ is used for creating and destroying tables, indexes and other structures,Data manipulation language,Data control language,Transaction control language,Data definition language,Data definition language,subject,DBMS
+The view of total database content is,Conceptual view,Internal view,External view,Physical view,Conceptual view,subject,DBMS
+The ____ refers to the way data is organized in and accessible from DBMS,Database hierarchy,Data organization,Data sharing,Data model,Data model,subject,DBMS
+Architecture of the database can be viewed as,Two levels,Four levels,Three levels,One level,Three levels,subject,DBMS
+Who introduced the relational database rules?,Atul Kahate,James Gosling,EF Codd,Dennis Ritchie,EF Codd,subject,DBMS
+In a relational model, relations are termed as,Tuples,Attributes,Tables,Rows,Tables,subject,DBMS
+When a foreign key must exist in another table, it is called,Transitive dependency,Insertion anomaly,Referential integrity constraint,Normal form,Referential integrity constraint,subject,DBMS
+In the architecture of a database system, external level is the,Physical level,Logical level,Conceptual level,View level,View level,subject,DBMS
+A functional dependency is a relationship among,Tables,Rows,Relations,Attributes,Attributes,subject,DBMS
+Related fields in a database are grouped to form a,Data file,Data record,Menu,Bank,Data record,subject,DBMS
+A table having more than one possible key is related to,Foreign key,Integrity key,Relationship,Candidate key,Candidate key,subject,DBMS
+The database environment has all components except,Users,Separate files,Database,Database administrator,Separate files,subject,DBMS
+Eliminating columns in a table is done by which operation?,Restrict,Project,Union,Divide,Project,subject,DBMS
+The way a particular application views the data is called,Module,Relational model,Schema,Sub schema,Sub schema,subject,DBMS
+A condition specified on a database schema that restricts data is called,Key constraint,Check constraint,Foreign key constraint,Integrity constraint,Integrity constraint,subject,DBMS

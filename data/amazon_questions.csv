@@ -1,0 +1,21 @@
+question,optionA,optionB,optionC,optionD,correctAnswer,type,category,branch
+Which data structure is most suitable for implementing LRU cache?,Stack,Queue,Hash map and doubly linked list,Array,Hash map and doubly linked list,company,Amazon,CSE
+Which algorithm is commonly used to find shortest paths in weighted graphs?,BFS,DFS,Dijkstra algorithm,Prim algorithm,Dijkstra algorithm,company,Amazon,CSE
+Which data structure is best for implementing a priority based job scheduler?,Queue,Stack,Priority queue,Deque,Priority queue,company,Amazon,CSE
+Which traversal of a binary search tree gives sorted output?,Preorder,Postorder,Inorder,Level order,Inorder,company,Amazon,CSE
+Which technique is used to solve problems with overlapping subproblems?,Greedy approach,Backtracking,Dynamic programming,Divide and conquer,Dynamic programming,company,Amazon,CSE
+Which data structure is most efficient for searching in large datasets?,Array,Linked list,Hash table,Stack,Hash table,company,Amazon,CSE
+Which data structure is used to detect cycle in a graph using DFS?,Queue,Stack,Set,Array,Stack,company,Amazon,CSE
+Which algorithm is best suited to schedule tasks with minimum completion time?,FCFS,SJF,Round robin,Priority,SJF,company,Amazon,CSE
+Which of the following is not a stable sorting algorithm?,Merge sort,Insertion sort,Bubble sort,Heap sort,Heap sort,company,Amazon,CSE
+Which data structure is best for implementing undo/redo operations?,Queue,Array,Stack,Tree,Stack,company,Amazon,CSE
+Which data structure is used for adjacency list representation of graphs?,Array,Queue,Linked list,Stack,Linked list,company,Amazon,CSE
+Which of the following has average case time complexity O(1) for search?,Array,Linked list,Binary search tree,Hash table,Hash table,company,Amazon,CSE
+Which algorithm uses divide and conquer strategy?,Bubble sort,Merge sort,Insertion sort,Selection sort,Merge sort,company,Amazon,CSE
+Which data structure is used in topological sorting?,Queue,Stack,Tree,Heap,Stack,company,Amazon,CSE
+Which data structure is best suited for checking balanced parentheses?,Queue,Stack,Array,Linked list,Stack,company,Amazon,CSE
+Which data structure is used to store hierarchical data?,Array,Stack,Tree,Queue,Tree,company,Amazon,CSE
+Which algorithm is used to find minimum spanning tree?,Dijkstra algorithm,Bellman Ford,Prim algorithm,DFS,Prim algorithm,company,Amazon,CSE
+Which data structure supports efficient insertion and deletion at both ends?,Queue,Deque,Stack,Tree,Deque,company,Amazon,CSE
+Which data structure is commonly used to implement symbol tables?,Queue,Array,Hash table,Stack,Hash table,company,Amazon,CSE
+Which traversal is used in breadth first search?,Inorder,Preorder,Postorder,Level order,Level order,company,Amazon,CSE

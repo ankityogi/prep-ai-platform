@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mock Test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Top bar -->
+
+    <!-- Unified Top Navbar -->
+    <%- include('partials/navbar', { activePage: 'mock-test' }) %>
+
+
+        <div class="app-container">
+
+            <!-- Main content -->
+            <main class="main-content">
+
+                <!-- ================= AI JOB DESCRIPTION MOCK TEST ================= -->
+                <h2 class="section-title">Job Description Mock Test</h2>
+                <p class="section-subtitle">Paste a Job Description (JD) to dynamically generate a custom technical mock
+                    test via AI</p>
+
+                <div class="card"
+                    style="width: 100%; max-width: 800px; margin: 0 auto 40px auto; padding: 25px; text-align: left; cursor: default; box-shadow: 0 4px 12px rgba(33, 150, 243, 0.15); border: 1px solid #e3f2fd;">
+                    <textarea id="jdInput" rows="6"
+                        placeholder="Paste the full job description or core technical requirements here..."
+                        style="width: 100%; padding: 15px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 1rem; margin-bottom: 15px; font-family: inherit; resize: vertical;"></textarea>
+                    <button class="btn btn-primary btn-block" onclick="startJDTest()">
+                        Generate Custom JD Match Test
+                    </button>
+                </div>
+
+                <!-- ================= SUBJECT WISE ================= -->
+
+                <h2 class="section-title">Subjects</h2>
+                <p class="section-subtitle">Choose a subject to start your mock test</p>
+
+                <div class="card-grid">
+
+                    <div class="card" onclick="startSubject('DBMS')">
+                        <h3>DBMS</h3>
+                        <p>Database Management Systems</p>
+                    </div>
+
+                    <div class="card" onclick="startSubject('CN')">
+                        <h3>Computer Networks</h3>
+                        <p>CN subject mock test</p>
+                    </div>
+
+                    <div class="card" onclick="startSubject('DS')">
+                        <h3>Data Structures</h3>
+                        <p>DS subject mock test</p>
+                    </div>
+
+                    <div class="card" onclick="startSubject('OOPS')">
+                        <h3>OOPS</h3>
+                        <p>Object Oriented Programming</p>
+                    </div>
+
+                    <div class="card" onclick="startSubject('OS')">
+                        <h3>Operating Systems</h3>
+                        <p>OS subject mock test</p>
+                    </div>
+
+                    <div class="card" onclick="startSubject('SE')">
+                        <h3>Software Engineering</h3>
+                        <p>SE subject mock test</p>
+                    </div>
+
+                </div>
+
+                <!-- ================= DIVIDER ================= -->
+
+                <!-- <hr class="section-divider"> -->
+
+                <!-- ================= COMPANY WISE ================= -->
+
+                <h2 class="section-title">Companys</h2>
+                <p class="section-subtitle">Choose a company pattern mock test</p>
+
+                <div class="card-grid">
+
+                    <div class="card" onclick="startCompany('Google')">
+                        <h3>Google</h3>
+                        <p>Google MCQ Test</p>
+                    </div>
+
+                    <div class="card" onclick="startCompany('Amazon')">
+                        <h3>Amazon</h3>
+                        <p>Amazon MCQ Test</p>
+                    </div>
+
+                    <div class="card" onclick="startCompany('Microsoft')">
+                        <h3>Microsoft</h3>
+                        <p>Microsoft MCQ Test</p>
+                    </div>
+
+                    <div class="card" onclick="startCompany('TCS')">
+                        <h3>TCS</h3>
+                        <p>TCS MCQ Test</p>
+                    </div>
+
+                </div>
+
+            </main>
+
+
+        </div>
+
+        <script>
+            function startSubject(subject) {
+                window.location.href =
+                    "/mock-test?type=subject&value=" + encodeURIComponent(subject);
+            }
+
+            function startCompany(company) {
+                window.location.href =
+                    "/mock-test?type=company&value=" + encodeURIComponent(company);
+            }
+
+            function startJDTest() {
+                const jdText = document.getElementById("jdInput").value.trim();
+                if (!jdText) {
+                    alert("Please paste a Job Description first.");
+                    return;
+                }
+                sessionStorage.setItem("customJD", jdText);
+                window.location.href = "/mock-test?type=jd";
+            }
+        </script>
+
+
+</body>
+
+</html>
