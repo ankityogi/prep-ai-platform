@@ -93,8 +93,13 @@
             <p class="subtitle" style="margin-bottom: 30px;">Track your interview progress and view detailed feedback from past sessions.</p>
 
             <div class="dashboard-grid">
-                <div class="chart-container">
-                    <canvas id="performanceChart"></canvas>
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div class="chart-container">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="mockTestTrendChart"></canvas>
+                    </div>
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 20px;">
                     <div class="stat-card">
@@ -169,6 +174,42 @@
                         },
                         plugins: {
                             legend: { labels: { color: '#f8fafc' } }
+                        }
+                    }
+                });
+
+                // --- Mock Test Trend Chart ---
+                const ctxMock = document.getElementById('mockTestTrendChart').getContext('2d');
+                
+                const mockLabels = mockTests.map((t, i) => `Test ${i+1} (${new Date(t.createdAt).toLocaleDateString()})`);
+                const mockScores = mockTests.map(t => t.score);
+                
+                new Chart(ctxMock, {
+                    type: 'line',
+                    data: {
+                        labels: mockLabels.length ? mockLabels : ['No Data Yet'],
+                        datasets: [{
+                            label: 'Mock Test Trend',
+                            data: mockScores.length ? mockScores : [0],
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 5,
+                            pointBackgroundColor: '#10b981'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { min: 0, ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                            x: { ticks: { color: '#94a3b8' }, grid: { display: false } }
+                        },
+                        plugins: {
+                            legend: { labels: { color: '#f8fafc' } },
+                            title: { display: true, text: '30-Day Historical Trend', color: '#f8fafc' }
                         }
                     }
                 });

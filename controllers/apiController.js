@@ -435,7 +435,10 @@ const liveFeedback = async (req, res) => {
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-        const prompt = `You are an expert technical interviewer. The candidate is answering this question: "${question}". They have currently spoken: "${answer}". Look at the candidate's body language/posture from the webcam snapshot provided. Provide ONE short, encouraging sentence of live feedback (max 15 words) addressing either their speech clarity/progress or their eye contact/posture. Be natural and conversational (e.g. "Good eye contact, keep going!" or "Try to look at the camera.").`;
+        const prompt = `You are an expert technical interviewer. The candidate is answering this question: "${question}". They have currently spoken: "${answer}".
+1. Analyze the candidate's body language and posture from the webcam snapshot provided.
+2. Perform Speech Sentiment Analysis on the emotional tone, confidence, and clarity of their spoken text ("${answer}").
+Provide ONE short, encouraging sentence of live feedback (max 15 words) addressing either their facial/posture cues or their speech sentiment/tone. Be natural and conversational (e.g. "Good eye contact and you sound confident, keep going!" or "Try to look at the camera and speak a bit slower.").`;
 
         const imagePart = {
             inlineData: {
