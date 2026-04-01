@@ -22,9 +22,20 @@
 
             <h1>Mock Test</h1>
 
-            <p id="timer"><strong>Time Left:</strong> <span id="timeText">10:00</span></p>
+            <p id="timer" style="display: none;"><strong>Time Left:</strong> <span id="timeText">10:00</span></p>
 
-            <div id="qaCard" class="mock-card">
+            <!-- Professional Intro Placeholder before test starts -->
+            <div id="introCard" class="mock-card" style="text-align: center; padding: 40px 20px;">
+                <h2 style="margin-bottom: 15px; color: var(--primary);">Ready to Begin?</h2>
+                <p style="color: var(--text-muted); margin-bottom: 25px;">This mock test contains randomized multiple choice questions based on your selection. You will have a limited time to complete it.</p>
+                <div style="background: #f1f5f9; padding: 15px; border-radius: 8px; display: inline-block; margin-bottom: 20px;">
+                    <p style="margin: 0; font-weight: 500;">✓ 10 Minutes Timer</p>
+                    <p style="margin: 0; font-weight: 500; margin-top: 5px;">✓ Multiple Choice format</p>
+                    <p style="margin: 0; font-weight: 500; margin-top: 5px;">✓ Instant AI Assessment</p>
+                </div>
+            </div>
+
+            <div id="qaCard" class="mock-card" style="display: none;">
 
                 <h3 id="questionText"></h3>
 
@@ -96,6 +107,10 @@
                 document.getElementById("nextBtn").disabled = false;
                 document.getElementById("submitBtn").disabled = false;
 
+                document.getElementById("introCard").style.display = "none";
+                document.getElementById("qaCard").style.display = "block";
+                document.getElementById("timer").style.display = "block";
+                
                 showQuestion();
                 startTimer();
 

@@ -39,11 +39,16 @@ async function seedToCloud() {
                     .on("data", (row) => {
                         questions.push({
                             question: row.question,
-                            options: [row.optionA, row.optionB, row.optionC, row.optionD],
-                            correctAnswer: row.correctAnswer,
+                            options: [
+                                row.optionA || row.option1,
+                                row.optionB || row.option2,
+                                row.optionC || row.option3,
+                                row.optionD || row.option4
+                            ],
+                            correctAnswer: row.correctAnswer || row.correct,
                             type: row.type,
                             category: row.category,
-                            branch: row.branch
+                            branch: row.branch || "CSE"
                         });
                     })
                     .on("end", async () => {
