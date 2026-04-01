@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Dashboard</title>
+    <title>PrepAI Home</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,52 +11,55 @@
     <%- include('partials/navbar', { activePage: 'dashboard' }) %>
 
 
-    <div class="app-container">
+        <div class="app-container">
 
-        <!-- Main Content -->
-        <main class="main-content">
+            <!-- Main Content -->
+            <main class="main-content">
 
-            <h1>Welcome 👋</h1>
-            <p class="subtitle">This is your interview preparation dashboard.</p>
+                <!-- Welcome Banner -->
+                <div style="background: linear-gradient(135deg, var(--primary), #1e3a8a); color: white; padding: 40px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+                    <h1 style="color: white; margin-bottom: 10px;">Welcome to PrepAI 👋</h1>
+                    <p style="opacity: 0.9; font-size: 16px;">Your personal command center for technical interview preparation.</p>
+                </div>
 
-            <div class="card-grid">
+                <h2 style="margin-bottom: 20px;">Quick Actions</h2>
+                <div class="card-grid" style="margin-top: 0;">
 
-                <!-- cards made clickable -->
-                <a href="/resume" class="card">
-                    <h3>Upload Resume</h3>
-                    <p>Add your resume to generate personalized questions.</p>
-                </a>
+                    <a href="/mock-test-home" class="card" style="border-top: 4px solid var(--primary);">
+                        <h3>📝 AI Mock Test</h3>
+                        <p>Start a 10-minute AI-graded test on specific CS topics or your own JD.</p>
+                    </a>
 
-                <a href="/interview" class="card">
-                    <h3>Start Interview</h3>
-                    <p>Practice interview questions with AI.</p>
-                </a>
+                    <a href="/coding" class="card" style="border-top: 4px solid #10b981;">
+                        <h3>💻 Practice Coding</h3>
+                        <p>Hone your programming skills across dynamic tech domains.</p>
+                    </a>
 
-                <a href="/results" class="card">
-                    <h3>View Results</h3>
-                    <p>Check your communication and technical scores.</p>
-                </a>
+                    <a href="/interview" class="card" style="border-top: 4px solid #f59e0b;">
+                        <h3>🎙️ Start AI Interview</h3>
+                        <p>Practice verbal and behavioral questions with the AI coach.</p>
+                    </a>
 
-                <a href="/top-questions" class="card">
-                    <h3>Top Interview Questions</h3>
-                    <p>View frequently asked interview questions.</p>
-                </a>
+                    <a href="/resume" class="card" style="border-top: 4px solid #8b5cf6;">
+                        <h3>📄 Manage Profile</h3>
+                        <p>Upload your resume to unlock hyper-personalized AI questions.</p>
+                    </a>
 
-            </div>
+                </div>
 
-            <div class="card" onclick="startLiveInterview()" style="cursor:pointer;">
-                <h3>Live Interview</h3>
-                <p>Start 1-to-1 Video Interview</p>
-            </div>
+                <div class="card" onclick="startLiveInterview()" style="cursor:pointer; text-align: center; margin-top: 30px; background: #faf5ff; border: 2px dashed #a855f7;">
+                    <h3 style="color: #7e22ce;">🤝 Peer-to-Peer Interview Room</h3>
+                    <p style="color: #6b21a8;">Generate a Live 1-to-1 Video room link to practice with a human peer.</p>
+                </div>
 
-        </main>
+            </main>
 
-    </div>
-<script>
-    function startLiveInterview() {
-        window.location.href = "/live-interview";
-    }
-</script>
+        </div>
+        <script>
+            function startLiveInterview() {
+                window.location.href = "/live-interview";
+            }
+        </script>
 </body>
 
 

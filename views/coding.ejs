@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Coding Practice</title>
     <link rel="stylesheet" href="style.css">
-    
+
     <!-- Include marked.js for parsing Markdown -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
@@ -22,13 +22,49 @@
             font-size: 15px;
             border-radius: 4px;
         }
-        #status p { margin-top: 0; margin-bottom: 15px; line-height: 1.5; color: #333; }
-        #status ul, #status ol { margin-top: 0; margin-bottom: 15px; padding-left: 20px; }
-        #status li { margin-bottom: 8px; line-height: 1.5; }
-        #status strong { color: #111; }
-        #codingQuestion p { margin-top: 0; margin-bottom: 10px; }
-        #codingQuestion pre { background: #e0e0e0; padding: 10px; border-radius: 4px; overflow-x: auto; margin-bottom:10px; }
-        #codingQuestion code { font-family: 'Consolas', monospace; background: #e8e8e8; padding: 2px 4px; border-radius: 3px; }
+
+        #status p {
+            margin-top: 0;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        #status ul,
+        #status ol {
+            margin-top: 0;
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+
+        #status li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        #status strong {
+            color: #111;
+        }
+
+        #codingQuestion p {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        #codingQuestion pre {
+            background: #e0e0e0;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin-bottom: 10px;
+        }
+
+        #codingQuestion code {
+            font-family: 'Consolas', monospace;
+            background: #e8e8e8;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
     </style>
 </head>
 
@@ -38,146 +74,150 @@
     <%- include('partials/navbar', { activePage: 'coding' }) %>
 
 
-    <div class="main-layout">
+        <div class="main-layout">
 
-        <!-- Sidebar (use protected routes) -->
+            <!-- Sidebar (use protected routes) -->
 
-        <!-- Main Content -->
-        <main class="main-content" style="max-width: 900px;">
+            <!-- Main Content -->
+            <main class="main-content" style="max-width: 900px;">
 
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h1 style="color:var(--text-main); margin-bottom:10px;">Practice Coding</h1>
-                <button class="btn btn-primary" onclick="getNewProblem()">Generate New DSA Problem</button>
-            </div>
-            <p style="color:var(--text-muted); margin-bottom:20px;">Use AI to practice data structures and algorithm problem solving.</p>
-
-            <div class="question-box" style="margin-bottom:20px; padding:20px; background:#f9f9f9; border-left:4px solid #4CAF50;">
-                <h3 style="margin-top:0;">Problem Statement</h3>
-                <div id="codingQuestion" style="font-size:1.05em; line-height:1.5;">
-                    Click "Generate New DSA Problem" to begin or use this terminal to practice.
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h1 style="color:var(--text-main); margin-bottom:10px;">Practice Coding</h1>
+                    <button class="btn btn-primary" onclick="getNewProblem()">Generate New DSA Problem</button>
                 </div>
-            </div>
+                <p style="color:var(--text-muted); margin-bottom:20px;">Use AI to practice data structures and algorithm
+                    problem solving.</p>
 
-            <div style="margin-bottom:10px; display:flex; gap:15px; align-items:center;">
-                <label for="lang-select" style="font-weight:bold;">Language: </label>
-                <select id="lang-select" onchange="changeLanguage()" style="padding:8px; border-radius:4px; border:1px solid #ccc; font-size:1em;">
-                    <option value="javascript">JavaScript</option>
-                    <option value="python">Python</option>
-                    <option value="text/x-java">Java</option>
-                    <option value="text/x-c++src">C++</option>
-                </select>
-            </div>
+                <div class="question-box"
+                    style="margin-bottom:20px; padding:20px; background:#f9f9f9; border-left:4px solid #4CAF50;">
+                    <h3 style="margin-top:0;">Problem Statement</h3>
+                    <div id="codingQuestion" style="font-size:1.05em; line-height:1.5;">
+                        Click "Generate New DSA Problem" to begin or use this terminal to practice.
+                    </div>
+                </div>
 
-            <div style="border:1px solid #ddd; border-radius:4px; overflow:hidden; margin-bottom:15px;">
-                <textarea id="codeArea"></textarea>
-            </div>
+                <div style="margin-bottom:10px; display:flex; gap:15px; align-items:center;">
+                    <label for="lang-select" style="font-weight:bold;">Language: </label>
+                    <select id="lang-select" onchange="changeLanguage()"
+                        style="padding:8px; border-radius:4px; border:1px solid #ccc; font-size:1em;">
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="text/x-java">Java</option>
+                        <option value="text/x-c++src">C++</option>
+                    </select>
+                </div>
 
-            <div style="text-align:center; margin-top:20px;">
-                <button class="btn btn-warning" onclick="submitCode()">Submit Code for AI Evaluation</button>
-            </div>
+                <div style="border:1px solid #ddd; border-radius:4px; overflow:hidden; margin-bottom:15px;">
+                    <textarea id="codeArea"></textarea>
+                </div>
 
-            <div id="evaluation-container" style="display:none; margin-top:30px; padding:20px; border:1px solid #FF9800; border-radius:8px; background-color:#fff3e0;">
-                <h3 style="color:#e65100; margin-top:0;">AI Code Review</h3>
-                <div id="status" style="font-family:inherit; font-size:1.05em;"></div>
-            </div>
+                <div style="text-align:center; margin-top:20px;">
+                    <button class="btn btn-warning" onclick="submitCode()">Submit Code for AI Evaluation</button>
+                </div>
 
-        </main>
+                <div id="evaluation-container"
+                    style="display:none; margin-top:30px; padding:20px; border:1px solid #FF9800; border-radius:8px; background-color:#fff3e0;">
+                    <h3 style="color:#e65100; margin-top:0;">AI Code Review</h3>
+                    <div id="status" style="font-family:inherit; font-size:1.05em;"></div>
+                </div>
 
-    </div>
+            </main>
 
-    <script>
-        let editor;
+        </div>
 
-        window.onload = function() {
-            editor = CodeMirror.fromTextArea(document.getElementById("codeArea"), {
-                lineNumbers: true,
-                mode: "javascript",
-                theme: "dracula",
-                indentUnit: 4,
-                tabSize: 4,
-                lineWrapping: true
-            });
-            editor.setSize(null, "400px");
-            changeLanguage(); // populate template
-        };
+        <script>
+            let editor;
 
-        function changeLanguage() {
-            const lang = document.getElementById("lang-select").value;
-            editor.setOption("mode", lang);
-            
-            let starter = "";
-            if (lang === "javascript") starter = "function solve() {\n    // Write your code here\n}\n";
-            else if (lang === "python") starter = "def solve():\n    # Write your code here\n    pass\n";
-            else if (lang === "text/x-java") starter = "class Solution {\n    public void solve() {\n        // Write your code here\n    }\n}\n";
-            else if (lang === "text/x-c++src") starter = "#include <iostream>\nusing namespace std;\n\nvoid solve() {\n    // Write your code here\n}\n";
-            
-            editor.setValue(starter);
-        }
-
-        async function getNewProblem() {
-            document.getElementById("codingQuestion").innerText = "Generating a random DSA problem... Please wait.";
-            document.getElementById("evaluation-container").style.display = "none";
-            document.getElementById("status").innerHTML = "";
-
-            try {
-                const res = await fetch("/api/ai/question", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ type: "code" }),
-                    credentials: "same-origin"
+            window.onload = function () {
+                editor = CodeMirror.fromTextArea(document.getElementById("codeArea"), {
+                    lineNumbers: true,
+                    mode: "javascript",
+                    theme: "dracula",
+                    indentUnit: 4,
+                    tabSize: 4,
+                    lineWrapping: true
                 });
-                if (res.ok) {
-                    const data = await res.json();
-                    document.getElementById("codingQuestion").innerHTML = marked.parse(data.question);
-                    changeLanguage(); // reset code template
-                } else {
-                     document.getElementById("codingQuestion").innerText = "Error generating problem (Quota exceeded or server error).";
+                editor.setSize(null, "400px");
+                changeLanguage(); // populate template
+            };
+
+            function changeLanguage() {
+                const lang = document.getElementById("lang-select").value;
+                editor.setOption("mode", lang);
+
+                let starter = "";
+                if (lang === "javascript") starter = "function solve() {\n    // Write your code here\n}\n";
+                else if (lang === "python") starter = "def solve():\n    # Write your code here\n    pass\n";
+                else if (lang === "text/x-java") starter = "class Solution {\n    public void solve() {\n        // Write your code here\n    }\n}\n";
+                else if (lang === "text/x-c++src") starter = "#include <iostream>\nusing namespace std;\n\nvoid solve() {\n    // Write your code here\n}\n";
+
+                editor.setValue(starter);
+            }
+
+            async function getNewProblem() {
+                document.getElementById("codingQuestion").innerText = "Generating a random DSA problem... Please wait.";
+                document.getElementById("evaluation-container").style.display = "none";
+                document.getElementById("status").innerHTML = "";
+
+                try {
+                    const res = await fetch("/api/ai/question", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ type: "code" }),
+                        credentials: "same-origin"
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        document.getElementById("codingQuestion").innerHTML = marked.parse(data.question);
+                        changeLanguage(); // reset code template
+                    } else {
+                        document.getElementById("codingQuestion").innerText = "Error generating problem (Quota exceeded or server error).";
+                    }
+                } catch (err) {
+                    console.error(err);
+                    document.getElementById("codingQuestion").innerText = "Error generating problem.";
                 }
-            } catch (err) {
-                console.error(err);
-                document.getElementById("codingQuestion").innerText = "Error generating problem.";
-            }
-        }
-
-        async function submitCode() {
-            const code = editor.getValue();
-            const questionElement = document.getElementById("codingQuestion").innerText;
-            const langSelector = document.getElementById("lang-select");
-            const langName = langSelector.options[langSelector.selectedIndex].text;
-
-            if (!code.trim() || (code.includes("// Write your code here") && code.split('\n').length <= 5)) {
-                alert("Please write some actual code before submitting!");
-                return;
             }
 
-            document.getElementById("evaluation-container").style.display = "block";
-            document.getElementById("status").innerHTML = "<strong>Evaluating your code...</strong> This could take a few seconds.";
+            async function submitCode() {
+                const code = editor.getValue();
+                const questionElement = document.getElementById("codingQuestion").innerText;
+                const langSelector = document.getElementById("lang-select");
+                const langName = langSelector.options[langSelector.selectedIndex].text;
 
-            try {
-                const res = await fetch("/api/ai/evaluate", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        type: "code",
-                        question: questionElement,
-                        answer: code,
-                        language: langName
-                    }),
-                    credentials: "same-origin"
-                });
-                
-                if (res.ok) {
-                    const data = await res.json();
-                    document.getElementById("status").innerHTML = marked.parse(data.evaluation);
-                } else {
-                    document.getElementById("status").innerHTML = "<span style='color:red;'>Error evaluating code (Quota exceeded or server error).</span>";
+                if (!code.trim() || (code.includes("// Write your code here") && code.split('\n').length <= 5)) {
+                    alert("Please write some actual code before submitting!");
+                    return;
                 }
-            } catch (err) {
-                console.error(err);
-                document.getElementById("status").innerHTML = "<span style='color:red;'>Error communicating with AI server.</span>";
+
+                document.getElementById("evaluation-container").style.display = "block";
+                document.getElementById("status").innerHTML = "<strong>Evaluating your code...</strong> This could take a few seconds.";
+
+                try {
+                    const res = await fetch("/api/ai/evaluate", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            type: "code",
+                            question: questionElement,
+                            answer: code,
+                            language: langName
+                        }),
+                        credentials: "same-origin"
+                    });
+
+                    if (res.ok) {
+                        const data = await res.json();
+                        document.getElementById("status").innerHTML = marked.parse(data.evaluation);
+                    } else {
+                        document.getElementById("status").innerHTML = "<span style='color:red;'>Error evaluating code (Quota exceeded or server error).</span>";
+                    }
+                } catch (err) {
+                    console.error(err);
+                    document.getElementById("status").innerHTML = "<span style='color:red;'>Error communicating with AI server.</span>";
+                }
             }
-        }
-    </script>
+        </script>
 
 </body>
 

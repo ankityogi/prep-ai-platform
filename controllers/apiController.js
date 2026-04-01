@@ -61,7 +61,7 @@ const uploadAndParseResume = async (req, res) => {
 
         // 1. Read PDF file from disk
         const dataBuffer = fs.readFileSync(req.file.path);
-        
+
         // 2. Parse text
         const pdfData = await pdfParse(dataBuffer);
         const resumeText = pdfData.text;
@@ -69,7 +69,7 @@ const uploadAndParseResume = async (req, res) => {
         // 3. Prompt Gemini AI with STRICT JSON boundaries
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-        
+
         const prompt = `You are an expert HR recruiter. Analyze the following raw text extracted from a candidate's resume and extract their profile details.
         
 Resume Text:
@@ -86,7 +86,7 @@ Extract these exactly matching keys:
 
         const result = await model.generateContent(prompt);
         let responseText = result.response.text().trim();
-        
+
         // Clean markdown JSON wrapper if hallucinated
         if (responseText.startsWith("\`\`\`json")) {
             responseText = responseText.replace(/^\`\`\`json/, "").replace(/\`\`\`$/, "").trim();
@@ -96,7 +96,7 @@ Extract these exactly matching keys:
 
         // 4. Update the user
         let extractedData = JSON.parse(responseText);
-        
+
         await User.findByIdAndUpdate(req.session.userId, {
             bio: extractedData.bio || "",
             skills: extractedData.skills || "",
@@ -189,7 +189,7 @@ const getResultsData = async (req, res) => {
         const userId = req.session.userId;
         const mockTests = await MockTestResult.find({ userId }).sort({ createdAt: 1 });
         const evaluations = await EvaluationResult.find({ userId }).sort({ createdAt: 1 });
-        
+
         res.json({ mockTests, evaluations });
     } catch (err) {
         console.error("RESULTS DATA ERROR:", err);
@@ -205,11 +205,11 @@ const exportPDFReport = async (req, res) => {
             .limit(10); // Limit to last 10 to keep PDF concise
 
         const doc = new PDFDocument({ margin: 50 });
-        
+
         // Setup raw streaming directly to the browser
         res.setHeader("Content-Type", "application/pdf");
         res.setHeader("Content-Disposition", `attachment; filename="${user.name.replace(/\s+/g, '_')}_AI_Report.pdf"`);
-        
+
         doc.pipe(res);
 
         // Header Styling
@@ -222,10 +222,10 @@ const exportPDFReport = async (req, res) => {
         doc.fontSize(16).fillColor("#0f172a").text("Candidate Details", { underline: true });
         doc.moveDown(0.5);
         doc.fontSize(12).fillColor("#334155")
-           .text(`Name: ${user.name}`)
-           .text(`Email: ${user.email}`)
-           .text(`College: ${user.college || "N/A"}`)
-           .text(`Top Skills: ${user.skills || "N/A"}`);
+            .text(`Name: ${user.name}`)
+            .text(`Email: ${user.email}`)
+            .text(`College: ${user.college || "N/A"}`)
+            .text(`Top Skills: ${user.skills || "N/A"}`);
         doc.moveDown(2);
 
         // Evaluations Parsing Section
@@ -238,19 +238,19 @@ const exportPDFReport = async (req, res) => {
             evaluations.forEach((ev, idx) => {
                 // Remove Markdown asterisks entirely for clean PDF plaintext output
                 const cleanFeedback = ev.feedback.replace(/\*\*/g, "").replace(/\*/g, "").replace(/\`/g, "");
-                
+
                 let roundContext = 'Technical Interview';
                 if (ev.type === 'behavioral') roundContext = 'Behavioral (STAR) Round';
                 else if (ev.type === 'code') roundContext = 'Coding Analytics Test';
 
                 doc.fontSize(14).fillColor("#2563eb").text(`Session ${idx + 1}: ${roundContext} - Score: ${ev.score}/10`);
-                doc.fontSize(11).fillColor("#000000").text("Date: " + ev.createdAt.toLocaleDateString(), { continued: true }).text(""); 
+                doc.fontSize(11).fillColor("#000000").text("Date: " + ev.createdAt.toLocaleDateString(), { continued: true }).text("");
                 doc.moveDown(0.5);
-                
+
                 doc.fillColor("#333").font("Helvetica-Bold").text("Question Asked:");
                 doc.font("Helvetica").text(ev.question);
                 doc.moveDown(0.5);
-                
+
                 doc.fillColor("#333").font("Helvetica-Bold").text("Specific AI Coach Feedback:");
                 doc.font("Helvetica").text(cleanFeedback);
                 doc.moveDown(1.5);
@@ -321,7 +321,7 @@ const generateAIQuestion = async (req, res) => {
         const model = genAI.getGenerativeModel({
             model: "gemini-2.5-flash"
         });
-        
+
         let prompt = `You are an expert interviewer. Ask exactly ONE technical interview question for a candidate applying for the role of "${branch || 'Software Engineer'}" in the "${field || 'Technology'}" industry. Do not include introductory text, greetings, or formatting, just the question text.`;
 
         if (type === 'code') {
@@ -351,12 +351,12 @@ const liveFeedback = async (req, res) => {
         if (!question || !image) {
             return res.status(400).json({ error: "Missing required fields" });
         }
-        
+
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-        
+
         const prompt = `You are an expert technical interviewer. The candidate is answering this question: "${question}". They have currently spoken: "${answer}". Look at the candidate's body language/posture from the webcam snapshot provided. Provide ONE short, encouraging sentence of live feedback (max 15 words) addressing either their speech clarity/progress or their eye contact/posture. Be natural and conversational (e.g. "Good eye contact, keep going!" or "Try to look at the camera.").`;
-        
+
         const imagePart = {
             inlineData: {
                 data: image.replace(/^data:image\/\w+;base64,/, ""),
@@ -382,7 +382,7 @@ const evaluateAnswer = async (req, res) => {
 
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-        
+
         let prompt = `As an expert technical interviewer, evaluate the candidate's answer.
 Question: ${question}
 Candidate's Answer: ${answer}
@@ -439,7 +439,7 @@ Format:
 
         const result = await model.generateContent(prompt);
         let responseText = result.response.text().trim();
-        
+
         // Sanitize JSON
         if (responseText.startsWith("\`\`\`json")) {
             responseText = responseText.replace(/^\`\`\`json/, "").replace(/\`\`\`$/, "").trim();
@@ -452,7 +452,7 @@ Format:
             parsedData = JSON.parse(responseText);
         } catch (e) {
             console.error("Parse formatting failure on evaluateAnswer! Full response:", responseText);
-            
+
             // Fallback Regex Extraction if JSON fails
             const scoreMatch = responseText.match(/(\d+)\s*\/\s*10/);
             parsedData = {
@@ -487,11 +487,11 @@ Format:
 const startMockTest = async (req, res) => {
     try {
         const { type, value } = req.body;
-        
+
         if (type === "jd") {
             const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
             const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-            
+
             const prompt = `Based on the following Job Description (JD), act as an expert technical recruiter and generate exactly 10 multiple-choice questions testing the candidate on the required technical skills and technologies listed in the JD.
 
 Job Description:
@@ -507,7 +507,7 @@ Each object must exactly match this format:
 
             const result = await model.generateContent(prompt);
             let responseText = result.response.text().trim();
-            
+
             if (responseText.startsWith("\`\`\`json")) {
                 responseText = responseText.replace(/^\`\`\`json/, "").replace(/\`\`\`$/, "").trim();
             } else if (responseText.startsWith("\`\`\`")) {
