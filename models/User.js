@@ -10,7 +10,10 @@ const userSchema = new mongoose.Schema({
     college: String,
     year: String,
     avatar: String,
-    resumeUrl: String
+    resumeUrl: String,
+    resumeText: String,
+    currentStreak: { type: Number, default: 0 },
+    lastPracticeDate: { type: Date, default: null }
 });
 
 module.exports = mongoose.model("User", userSchema);

@@ -24,6 +24,7 @@ const topQuestions = (req, res) => res.render("top-questions");
 const mockTest = (req, res) => res.render("mock-test");
 const mockTestHome = (req, res) => res.render("mock-test-home");
 const reviews = (req, res) => res.render("reviews");
+const atsScanner = (req, res) => res.render("ats-scanner");
 
 module.exports = {
     index,
@@ -40,5 +41,6 @@ module.exports = {
     topQuestions,
     mockTest,
     mockTestHome,
-    reviews
+    reviews,
+    atsScanner
 };

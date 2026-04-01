@@ -8,6 +8,40 @@ const fs = require("fs");
 const pdfParse = require("pdf-parse");
 const PDFDocument = require("pdfkit");
 
+// Gamification Helper: Update Daily Streak
+const updateStreak = async (userId) => {
+    try {
+        const user = await User.findById(userId);
+        if (!user) return;
+
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+        if (!user.lastPracticeDate) {
+            user.currentStreak = 1;
+            user.lastPracticeDate = today;
+            await user.save();
+            return;
+        }
+
+        const lastDate = new Date(user.lastPracticeDate);
+        const diffTime = Math.abs(today - lastDate);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 1) {
+            user.currentStreak += 1;
+            user.lastPracticeDate = today;
+            await user.save();
+        } else if (diffDays > 1) {
+            user.currentStreak = 1; 
+            user.lastPracticeDate = today;
+            await user.save();
+        }
+    } catch (err) {
+        console.error("Streak calculation error:", err);
+    }
+};
+
 const getProfile = async (req, res) => {
     const user = await User.findById(req.session.userId).select("-password");
     res.json(user);
@@ -31,7 +65,7 @@ const updateProfile = async (req, res) => {
 
 const uploadProfilePhoto = async (req, res) => {
     try {
-        const photoPath = "/uploads/profile/" + req.file.filename;
+        const photoPath = req.file.path; // Cloudinary URL
         await User.findByIdAndUpdate(req.session.userId, {
             profilePhoto: photoPath
         });
@@ -59,8 +93,8 @@ const uploadAndParseResume = async (req, res) => {
     try {
         if (!req.file) return res.status(400).json({ error: "No file uploaded" });
 
-        // 1. Read PDF file from disk
-        const dataBuffer = fs.readFileSync(req.file.path);
+        // 1. Read PDF file directly from multer memory buffer
+        const dataBuffer = req.file.buffer;
 
         // 2. Parse text
         const pdfData = await pdfParse(dataBuffer);
@@ -102,13 +136,58 @@ Extract these exactly matching keys:
             skills: extractedData.skills || "",
             college: extractedData.college || "",
             year: extractedData.year || "",
-            resumeUrl: req.file.path
+            resumeText: resumeText // Saved for ATS pipeline
         });
 
         res.json({ message: "Resume parsed successfully ✅", data: extractedData });
     } catch (err) {
         console.error("RESUME PARSING ERROR:", err);
         res.status(500).json({ error: "Failed to parse resume with AI" });
+    }
+};
+
+const scoreATSResume = async (req, res) => {
+    try {
+        const { jobDescription } = req.body;
+        if (!jobDescription || jobDescription.trim().length < 50) {
+            return res.status(400).json({ error: "Please provide a valid, detailed job description (min 50 chars)." });
+        }
+
+        const user = await User.findById(req.session.userId);
+        if (!user || !user.resumeText) {
+            return res.status(400).json({ error: "Upload your resume in the 'Manage Profile' section first!" });
+        }
+
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+        const prompt = `You are a strict Enterprise ATS (Applicant Tracking System). Compare this candidate's resume text firmly against the provided Job Description. Return exactly ONE JSON object (without markdown blocks) containing:
+{
+  "score": <number between 0 and 100 representing percentage match>,
+  "missingKeywords": [<array of top 5 short, specific string keywords/technologies they lack>],
+  "feedback": "<2-3 sentence strict, actionable feedback to improve their match rate>"
+}
+
+Target Job Description:
+${jobDescription}
+
+Candidate Resume Text:
+${user.resumeText}`;
+
+        const result = await model.generateContent(prompt);
+        let responseText = result.response.text().trim();
+
+        if (responseText.startsWith("\`\`\`json")) {
+            responseText = responseText.replace(/^\`\`\`json/, "").replace(/\`\`\`$/, "").trim();
+        } else if (responseText.startsWith("\`\`\`")) {
+            responseText = responseText.replace(/^\`\`\`/, "").replace(/\`\`\`$/, "").trim();
+        }
+
+        const parsedData = JSON.parse(responseText);
+        res.json(parsedData);
+    } catch (err) {
+        console.error("ATS LOGIC ERROR:", err);
+        res.status(500).json({ error: "Failed to run ATS scanner pipeline." });
     }
 };
 
@@ -478,6 +557,9 @@ Format:
         });
         await evaluationRecord.save();
 
+        // Increment Gamification Streak
+        await updateStreak(req.session.userId);
+
         res.json({ evaluation: parsedData.evaluation, score: parsedData.score });
     } catch (error) {
         console.error("EVALUATION ERROR:", error);
@@ -594,6 +676,10 @@ const submitMockTest = async (req, res) => {
         });
 
         await result.save();
+        
+        // Increment Gamification Streak
+        await updateStreak(req.session.userId);
+
         delete req.session.mockTest;
 
         res.json({
@@ -623,5 +709,6 @@ module.exports = {
     evaluateAnswer,
     startMockTest,
     submitMockTest,
-    uploadAndParseResume
+    uploadAndParseResume,
+    scoreATSResume
 };

@@ -39,4 +39,6 @@ router.post("/mock-test/submit", checkLogin, apiController.submitMockTest);
 
 router.post("/resume-upload", checkLogin, upload.single("resume"), apiController.uploadAndParseResume);
 
+router.post("/ats/score", checkLogin, aiLimiter, apiController.scoreATSResume);
+
 module.exports = router;

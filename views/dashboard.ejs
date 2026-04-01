@@ -4,6 +4,12 @@
 <head>
     <title>PrepAI Home</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        @keyframes subtleBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+    </style>
 </head>
 
 <body>
@@ -17,13 +23,23 @@
             <main class="main-content">
 
                 <!-- Welcome Banner -->
-                <div style="background: linear-gradient(135deg, var(--primary), #1e3a8a); color: white; padding: 40px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
-                    <h1 style="color: white; margin-bottom: 10px;">Welcome to PrepAI 👋</h1>
-                    <p style="opacity: 0.9; font-size: 16px;">Your personal command center for technical interview preparation.</p>
+                <div style="background: linear-gradient(135deg, var(--primary), #1e3a8a); color: white; padding: 40px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                    <div>
+                        <h1 style="color: white; margin-bottom: 10px;">Welcome to PrepAI 👋</h1>
+                        <p style="opacity: 0.9; font-size: 16px;">Your personal command center for technical interview preparation.</p>
+                    </div>
+                    <div id="streakBadge" style="display: none; background: rgba(255, 255, 255, 0.15); padding: 10px 25px; border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); animation: subtleBounce 2s ease-in-out infinite;">
+                        <h2 style="color: #fca5a5; margin: 0; font-size: 24px;">🔥 <span id="streakCount">0</span> Day Streak!</h2>
+                    </div>
                 </div>
 
                 <h2 style="margin-bottom: 20px;">Quick Actions</h2>
                 <div class="card-grid" style="margin-top: 0;">
+
+                    <a href="/ats-scanner" class="card" style="border-top: 4px solid #ef4444;">
+                        <h3>📈 ATS Resume Score</h3>
+                        <p>Calculate your precise match percentage against any Job Description.</p>
+                    </a>
 
                     <a href="/mock-test-home" class="card" style="border-top: 4px solid var(--primary);">
                         <h3>📝 AI Mock Test</h3>
@@ -59,6 +75,22 @@
             function startLiveInterview() {
                 window.location.href = "/live-interview";
             }
+            
+            async function fetchGamificationData() {
+                try {
+                    const res = await fetch("/api/profile");
+                    if(res.ok) {
+                        const user = await res.json();
+                        if (user.currentStreak && user.currentStreak > 0) {
+                            document.getElementById("streakBadge").style.display = "block";
+                            document.getElementById("streakCount").innerText = user.currentStreak;
+                        }
+                    }
+                } catch (e) { console.error("Could not load gamification streak"); }
+            }
+            
+            // Hydrate Gamification UI instantly on load
+            fetchGamificationData();
         </script>
 </body>
 

@@ -1,15 +1,9 @@
 const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("cloudinary").v2;
 
-// Resume Upload
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "uploads");
-    },
-    filename: function (req, file, cb) {
-        const uniqueName = Date.now() + "-" + file.originalname;
-        cb(null, uniqueName);
-    }
-});
+// Resume Upload (Memory Storage - parsed instantly on backend without hitting disk)
+const resumeStorage = multer.memoryStorage();
 
 const pdfFilter = (req, file, cb) => {
     if (file.mimetype === "application/pdf") {
@@ -18,27 +12,18 @@ const pdfFilter = (req, file, cb) => {
         cb(new Error("Only PDF files are allowed!"), false);
     }
 };
-const upload = multer({ storage, fileFilter: pdfFilter });
+const upload = multer({ storage: resumeStorage, fileFilter: pdfFilter });
 
-// Profile Photo Upload
-const photoStorage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "public/uploads/profile");
-    },
-    filename: function (req, file, cb) {
-        const uniqueName = Date.now() + "-" + file.originalname;
-        cb(null, uniqueName);
+// Profile Photo Upload (Direct to Cloudinary Cloud)
+const photoStorage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: "prep-ai-profiles",
+        allowedFormats: ["jpg", "png", "jpeg", "webp"]
     }
 });
 
-const imageFilter = (req, file, cb) => {
-    if (file.mimetype.startsWith("image/")) {
-        cb(null, true);
-    } else {
-        cb(new Error("Only image files are allowed!"), false);
-    }
-};
-const uploadPhoto = multer({ storage: photoStorage, fileFilter: imageFilter });
+const uploadPhoto = multer({ storage: photoStorage });
 
 // Video Upload
 const videoStorage = multer.diskStorage({

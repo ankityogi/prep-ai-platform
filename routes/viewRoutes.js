@@ -18,5 +18,6 @@ router.get("/top-questions", checkLogin, viewController.topQuestions);
 router.get("/mock-test", checkLogin, viewController.mockTest);
 router.get("/mock-test-home", checkLogin, viewController.mockTestHome);
 router.get("/reviews", checkLogin, viewController.reviews);
+router.get("/ats-scanner", checkLogin, viewController.atsScanner);
 
 module.exports = router;
