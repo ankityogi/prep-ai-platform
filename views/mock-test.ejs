@@ -31,7 +31,7 @@
                 <div id="optionsBox"></div>
 
                 <div class="mock-nav">
-                    <button class="btn btn-outline" id="prevBtn" onclick="prevQuestion()">Previous</button>
+                    <button class="btn btn-outline" id="prevBtn" onclick="prevQuestion()" style="display: none;">Previous</button>
                     <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Next</button>
                 </div>
 
@@ -152,7 +152,7 @@
             </label>
         `;
             });
-            document.getElementById("prevBtn").disabled = currentIndex === 0;
+            document.getElementById("prevBtn").style.display = currentIndex === 0 ? "none" : "inline-block";
             document.getElementById("nextBtn").disabled = currentIndex === questions.length - 1;
 
         }
