@@ -316,7 +316,7 @@ const getLeaderboardData = async (req, res) => {
 
 const generateAIQuestion = async (req, res) => {
     try {
-        const { field, branch, history, type } = req.body || {};
+        const { field, branch, history, type, topic } = req.body || {};
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({
             model: "gemini-2.5-flash"
@@ -325,7 +325,8 @@ const generateAIQuestion = async (req, res) => {
         let prompt = `You are an expert interviewer. Ask exactly ONE technical interview question for a candidate applying for the role of "${branch || 'Software Engineer'}" in the "${field || 'Technology'}" industry. Do not include introductory text, greetings, or formatting, just the question text.`;
 
         if (type === 'code') {
-            prompt = `You are an expert technical AI interviewer. Provide exactly ONE Data Structures and Algorithms (DSA) coding problem statement. Do not include greetings. Include the problem description, constraints, and an example. Format the exact problem text cleanly using Markdown.`;
+            const requestedTopic = topic || "Data Structures and Algorithms";
+            prompt = `You are an expert technical AI interviewer. Provide exactly ONE ${requestedTopic} problem statement. Do not include greetings. Include the problem description, constraints, and an example. Format the exact problem text cleanly using Markdown.`;
         } else if (type === 'behavioral') {
             prompt = `You are a strict HR Executive recruiter. Ask exactly ONE behavioral / situational interview question for a "${branch || 'Software'}" candidate in the "${field || 'Technology'}" industry to assess their soft skills and character. The question should specifically require them to use the S.T.A.R. Method (Situation, Task, Action, Result). e.g. "Tell me about a time you had a conflict with a manager..." Do not include any greetings, just the raw question text.`;
         } else if (history && history.length > 0) {

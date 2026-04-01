@@ -81,12 +81,21 @@
             <!-- Main Content -->
             <main class="main-content" style="max-width: 900px;">
 
-                <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px;">
                     <h1 style="color:var(--text-main); margin-bottom:10px;">Practice Coding</h1>
-                    <button class="btn btn-primary" onclick="getNewProblem()">Generate New DSA Problem</button>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <select id="topic-select" style="padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text-main); outline: none;">
+                            <option value="Data Structures and Algorithms">Data Structures & Algorithms</option>
+                            <option value="Web Development and Architecture">Web Development</option>
+                            <option value="Database Design and SQL Queries">Databases & SQL</option>
+                            <option value="Operating System Concepts">Operating Systems</option>
+                            <option value="System Design">System Design</option>
+                            <option value="Machine Learning algorithms">Machine Learning</option>
+                        </select>
+                        <button class="btn btn-primary" onclick="getNewProblem()">Generate Custom Problem</button>
+                    </div>
                 </div>
-                <p style="color:var(--text-muted); margin-bottom:20px;">Use AI to practice data structures and algorithm
-                    problem solving.</p>
+                <p style="color:var(--text-muted); margin-bottom:20px;">Use AI to practice technical problem solving across various Computer Science domains.</p>
 
                 <div class="question-box"
                     style="margin-bottom:20px; padding:20px; background:#f9f9f9; border-left:4px solid #4CAF50;">
@@ -155,7 +164,8 @@
             }
 
             async function getNewProblem() {
-                document.getElementById("codingQuestion").innerText = "Generating a random DSA problem... Please wait.";
+                const topic = document.getElementById("topic-select").value;
+                document.getElementById("codingQuestion").innerText = `Generating a random ${topic.split(' ')[0]} problem... Please wait.`;
                 document.getElementById("evaluation-container").style.display = "none";
                 document.getElementById("status").innerHTML = "";
 
@@ -163,7 +173,7 @@
                     const res = await fetch("/api/ai/question", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ type: "code" }),
+                        body: JSON.stringify({ type: "code", topic: topic }),
                         credentials: "same-origin"
                     });
                     if (res.ok) {
