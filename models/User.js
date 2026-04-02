@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
     college: String,
     year: String,
     avatar: String,
+    introVideo: String,
     resumeUrl: String,
     resumeText: String,
     currentStreak: { type: Number, default: 0 },

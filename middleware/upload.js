@@ -14,12 +14,14 @@ const pdfFilter = (req, file, cb) => {
 };
 const upload = multer({ storage: resumeStorage, fileFilter: pdfFilter });
 
-// Profile Photo Upload (Direct to Cloudinary Cloud)
-const photoStorage = new CloudinaryStorage({
-    cloudinary: cloudinary,
-    params: {
-        folder: "prep-ai-profiles",
-        allowedFormats: ["jpg", "png", "jpeg", "webp"]
+// Profile Photo Upload (Local Disk Storage)
+const photoStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "public/uploads/profile");
+    },
+    filename: function (req, file, cb) {
+        const uniqueName = Date.now() + "-" + file.originalname;
+        cb(null, uniqueName);
     }
 });
 

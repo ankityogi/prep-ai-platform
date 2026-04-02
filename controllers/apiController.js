@@ -33,7 +33,7 @@ const updateStreak = async (userId) => {
             user.lastPracticeDate = today;
             await user.save();
         } else if (diffDays > 1) {
-            user.currentStreak = 1; 
+            user.currentStreak = 1;
             user.lastPracticeDate = today;
             await user.save();
         }
@@ -65,7 +65,7 @@ const updateProfile = async (req, res) => {
 
 const uploadProfilePhoto = async (req, res) => {
     try {
-        const photoPath = req.file.path; // Cloudinary URL
+        const photoPath = "/uploads/profile/" + req.file.filename;
         await User.findByIdAndUpdate(req.session.userId, {
             profilePhoto: photoPath
         });
@@ -679,7 +679,7 @@ const submitMockTest = async (req, res) => {
         });
 
         await result.save();
-        
+
         // Increment Gamification Streak
         await updateStreak(req.session.userId);
 
