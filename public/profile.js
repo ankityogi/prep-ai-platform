@@ -29,8 +29,11 @@ async function loadProfile() {
 
     if (user.introVideo) {
         document.getElementById("introVideoPlayer").src = user.introVideo;
+        document.getElementById("introVideoPlayer").style.display = "block";
+        if (document.getElementById("videoContainer")) document.getElementById("videoContainer").style.display = "block";
     } else {
         document.getElementById("introVideoPlayer").style.display = "none";
+        if (document.getElementById("videoContainer")) document.getElementById("videoContainer").style.display = "none";
     }
 
     if (user.resumeUrl) {
